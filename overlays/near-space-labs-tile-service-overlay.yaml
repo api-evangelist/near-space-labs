@@ -1,0 +1,185 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Near Space Labs Tile Service
+  version: 1.0.0
+extends: ../openapi/near-space-labs-tile-service.json
+x-provenance:
+  generated: '2026-08-26'
+  method: generated
+  source: >-
+    Enhancements API Evangelist would apply to the provider's own Swagger 2.0 contract fetched
+    verbatim from https://api.nearspacelabs.net/tile/openapi/tile-server on 2026-08-26. The original
+    is never mutated. Every value below is taken from the provider's own documentation
+    (docs.nearspacelabs.com) or from the contract itself — nothing is invented.
+x-gaps-addressed:
+  - The document declares no `host`, `basePath` or `schemes`, so no client can resolve a request URL from it. The real base is https://api.nearspacelabs.net, documented on every docs page and used throughout the provider's own Postman collection.
+  - No operation declares an `operationId`, so no generator can name a method and no Agent Skill or MCP tool can reference an operation by identifier.
+  - No operation declares `tags`, so the 19 paths render as one flat list.
+  - No `securityDefinitions` and no `security` block, even though the sibling OAuth Service contract states "Authentication is required for all endpoints" and every operation here declares 401 and 403 responses. A generator reading this file alone emits an unauthenticated client.
+  - Nine legacy un-versioned /tile/ operations are described as deprecated in the docs and grouped in a "deprecated" folder in the provider's Postman collection, but none carries `deprecated: true`.
+  - 429 (rate limit) and 422 (unprocessable) are documented on docs.nearspacelabs.com/error-handling but declared on no operation.
+  - The `basemap` reserved survey id is documented in prose only and appears nowhere in the contract.
+actions:
+  - target: $
+    description: Declare the production host and scheme so the contract is resolvable.
+    update:
+      host: api.nearspacelabs.net
+      schemes:
+        - https
+  - target: $
+    description: >-
+      Declare the two credential shapes the provider documents at
+      https://docs.nearspacelabs.com/authentication and apply them globally.
+    update:
+      securityDefinitions:
+        oauth2ClientCredentials:
+          type: oauth2
+          flow: application
+          tokenUrl: https://api.nearspacelabs.net/oauth/token
+          scopes: {}
+          description: >-
+            OAuth 2.0 client credentials. POST client_id, client_secret, audience
+            (https://api.nearspacelabs.com) and grant_type=client_credentials to /oauth/token; present
+            the returned JWT as `Authorization: Bearer <access_token>`. Tokens are valid for 60 minutes.
+        staticApiKey:
+          type: apiKey
+          in: query
+          name: api_key
+          description: >-
+            A one-year static JWT issued by POST /oauth/static_key, passed as ?api_key=. Carries the
+            same permissions as an OAuth token. The provider warns it "travels in the URL, where it
+            can end up in server logs and browser history".
+      security:
+        - oauth2ClientCredentials: []
+        - staticApiKey: []
+  - target: $
+    description: Declare tag groups so the surface is navigable.
+    update:
+      tags:
+        - name: Surveys
+          description: Catalog operations — list surveys, find surveys by area, fetch footprints.
+        - name: Coverage
+          description: Tile-level metadata for an area of interest, including static tile URLs.
+        - name: Tiles
+          description: XYZ tile delivery, 256x256 PNG/JPEG, zoom 14-21.
+        - name: Deprecated
+          description: Legacy un-versioned /tile/ routes retained for compatibility; use /tile/v2/.
+  - target: $.paths['/tile/v2/surveys'].get
+    description: Name and classify the paginated survey catalog operation.
+    update:
+      operationId: listSurveys
+      tags: [Surveys]
+  - target: $.paths['/tile/v2/surveys/coverage'].get
+    description: Name and classify the area-of-interest survey search.
+    update:
+      operationId: findSurveysByArea
+      tags: [Surveys]
+  - target: $.paths['/tile/v2/{mosaic_id}/footprint'].get
+    description: Name and classify the survey footprint operation.
+    update:
+      operationId: getSurveyFootprint
+      tags: [Surveys]
+  - target: $.paths['/tile/v2/{mosaic_id}/coverage'].get
+    description: Name and classify the per-survey coverage operation.
+    update:
+      operationId: getSurveyCoverage
+      tags: [Coverage]
+  - target: $.paths['/tile/v2/{mosaic_id}/mosaic_updates'].get
+    description: Name and classify the change-detection feed.
+    update:
+      operationId: listMosaicUpdates
+      tags: [Coverage]
+  - target: $.paths['/tile/v2/{mosaic_id}/{z}/{x}/{y}'].get
+    description: Name and classify the latest-mosaic tile operation.
+    update:
+      operationId: getLatestTile
+      tags: [Tiles]
+  - target: $.paths['/tile/v2/{mosaic_id}/{z}/{x}/{y}.{ext}'].get
+    description: Name and classify the latest-mosaic tile operation with an explicit format.
+    update:
+      operationId: getLatestTileWithExtension
+      tags: [Tiles]
+  - target: $.paths['/tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}'].get
+    description: Name and classify the historical-capture tile operation.
+    update:
+      operationId: getHistoricalTile
+      tags: [Tiles]
+  - target: $.paths['/tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext}'].get
+    description: Name and classify the historical-capture tile operation with an explicit format.
+    update:
+      operationId: getHistoricalTileWithExtension
+      tags: [Tiles]
+  - target: $.paths['/tile/rsm/{z}/{x}/{y}.{ext}'].get
+    description: Name and classify the RSM mosaic tile operation.
+    update:
+      operationId: getRsmTile
+      tags: [Tiles]
+  - target: $.paths['/tile/surveys'].get
+    description: Mark the legacy survey list deprecated, per the docs and the provider's Postman collection.
+    update:
+      operationId: listSurveysLegacy
+      tags: [Deprecated]
+      deprecated: true
+  - target: $.paths['/tile/surveys/coverage'].get
+    description: Mark the legacy area search deprecated.
+    update:
+      operationId: findSurveysByAreaLegacy
+      tags: [Deprecated]
+      deprecated: true
+  - target: $.paths['/tile/{mosaic_id}/coverage'].get
+    description: Mark the legacy coverage operation deprecated.
+    update:
+      operationId: getSurveyCoverageLegacy
+      tags: [Deprecated]
+      deprecated: true
+  - target: $.paths['/tile/{mosaic_id}/footprint'].get
+    description: Mark the legacy footprint operation deprecated.
+    update:
+      operationId: getSurveyFootprintLegacy
+      tags: [Deprecated]
+      deprecated: true
+  - target: $.paths['/tile/{mosaic_id}/mosaic_updates'].get
+    description: Mark the legacy mosaic-updates operation deprecated.
+    update:
+      operationId: listMosaicUpdatesLegacy
+      tags: [Deprecated]
+      deprecated: true
+  - target: $.paths['/tile/{mosaic_id}/{z}/{x}/{y}'].get
+    description: Mark the legacy latest-tile operation deprecated.
+    update:
+      operationId: getLatestTileLegacy
+      tags: [Deprecated]
+      deprecated: true
+  - target: $.paths['/tile/{mosaic_id}/{z}/{x}/{y}.{ext}'].get
+    description: Mark the legacy latest-tile-with-extension operation deprecated.
+    update:
+      operationId: getLatestTileWithExtensionLegacy
+      tags: [Deprecated]
+      deprecated: true
+  - target: $.paths['/tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}'].get
+    description: Mark the legacy historical-tile operation deprecated.
+    update:
+      operationId: getHistoricalTileLegacy
+      tags: [Deprecated]
+      deprecated: true
+  - target: $.paths['/tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext}'].get
+    description: Mark the legacy historical-tile-with-extension operation deprecated.
+    update:
+      operationId: getHistoricalTileWithExtensionLegacy
+      tags: [Deprecated]
+      deprecated: true
+x-recommended-but-not-applied:
+  - >-
+    Declare the 429 and 422 responses the docs publish, with the shared error envelope
+    {error, message, status_code, x-correlation-id}. Not applied as an overlay action because it
+    would require authoring response schemas the provider has not published per-operation.
+  - >-
+    Hoist the repeated inline Survey / CoverageItem / Footprint shapes into `definitions` and $ref
+    them. The contract currently re-inlines Survey with a different field set on each of the three
+    operations that return it. See data-model/near-space-labs-data-model.yml.
+  - >-
+    Document the reserved `basemap` survey id, either as an enum value on `mosaic_id` or as its own
+    path. It is currently prose-only on docs.nearspacelabs.com/retrieving-tiles.
+  - >-
+    Publish the contract as OpenAPI 3.1 rather than Swagger 2.0, which would allow binary tile
+    responses and the JSON metadata projection of the same path to be described side by side.

@@ -1,0 +1,90 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://docs.nearspacelabs.com/authentication and https://docs.nearspacelabs.com/api/oauth,
+  cross-checked against the provider's own Swagger 2.0 contracts at
+  https://api.nearspacelabs.net/oauth/openapi/oauth and https://api.nearspacelabs.net/tile/openapi/tile-server.
+description: >-
+  Every Near Space Labs API endpoint is authenticated. There are two credential shapes, both minted
+  from the same NSL client id + client secret pair: a 60-minute OAuth 2.0 client-credentials Bearer
+  JWT, and a one-year static API key passed in the query string. Credentials are issued by Near Space
+  Labs sales/onboarding — there is no self-service signup.
+base_url: https://api.nearspacelabs.net
+primary_scheme: oauth2-client-credentials
+schemes:
+  - id: oauth2_client_credentials
+    type: oauth2
+    flow: clientCredentials
+    token_endpoint: https://api.nearspacelabs.net/oauth/token
+    request_media_type: application/json
+    request_fields:
+      client_id: Your NSL client id (required)
+      client_secret: Your NSL client secret (required)
+      audience: 'https://api.nearspacelabs.com (required, constant)'
+      grant_type: client_credentials (required)
+    response_fields:
+      access_token: 'JWT to present as `Authorization: Bearer <access_token>`'
+      expires_in: 3600 (seconds)
+      token_type: Bearer
+    presented_as: 'Authorization: Bearer <access_token>'
+    ttl_seconds: 3600
+    refresh: >-
+      No refresh token is issued. Re-POST /oauth/token. Docs advise refreshing at ~55 minutes
+      (current_time > token_issued_at + expires_in - 300) to keep a 5-minute safety buffer.
+    scopes: []
+    scopes_note: >-
+      The API publishes no OAuth scope surface. The token request carries no `scope` parameter, the
+      docs document none, and neither Swagger contract declares securityDefinitions. Permissions are
+      attached to the credential pair by Near Space Labs, not selected by the client. `scopes/` is
+      therefore intentionally not emitted for this provider.
+    docs: https://docs.nearspacelabs.com/authentication
+  - id: static_api_key
+    type: apiKey
+    in: query
+    name: api_key
+    token_endpoint: https://api.nearspacelabs.net/oauth/static_key
+    request_fields:
+      client_id: Your NSL client id (required)
+      client_secret: Your NSL client secret (required)
+    response_fields:
+      api_key: A long-lived signed JWT
+      expires_in: 31536000 (seconds — one year)
+      token_type: Bearer
+    presented_as: '?api_key=<api_key> appended to any authenticated request URL'
+    ttl_seconds: 31536000
+    example_usage: https://api.nearspacelabs.net/tile/v2/{surveyid}/{z}/{x}/{y}?api_key=<api_key>
+    intended_for: >-
+      Embedding tiles in a web map, sharing a demo, or any client with no token-refresh logic.
+    parity: >-
+      "The key carries the same permissions and contract as your OAuth tokens, so it works anywhere
+      a Bearer token does." — docs.nearspacelabs.com/authentication
+    docs: https://docs.nearspacelabs.com/authentication
+    provider_warning: >-
+      Quoted verbatim from the docs: "A static key is a bearer credential that lives for a year and
+      travels in the URL, where it can end up in server logs and browser history. Treat it like a
+      password and reissue it if it leaks."
+credential_issuance:
+  self_service: false
+  route: https://www.nearspacelabs.com/contact
+  note: >-
+    NSL_ID / NSL_SECRET are provisioned through sales onboarding. No developer sign-up, no free
+    tier, no key-provisioning endpoint is published.
+failure_modes:
+  '401': Token missing, expired, or invalid — or an incorrect NSL_ID / NSL_SECRET on /oauth/token.
+  '403': Authenticated but insufficient permissions for the resource.
+discovery:
+  openid_configuration: null
+  oauth_authorization_server: null
+  note: >-
+    No /.well-known/openid-configuration and no /.well-known/oauth-authorization-server on any host
+    (all 404 — see well-known/near-space-labs-well-known.yml). The token endpoint is discoverable
+    only from prose docs and the OAuth Service Swagger contract.
+spec_gap:
+  observed: >-
+    Neither published Swagger 2.0 document declares `securityDefinitions`, and no operation carries a
+    `security` block, even though the OAuth Service description states "Authentication is required for
+    all endpoints" and every tile operation documents 401/403 responses.
+  consequence: >-
+    A code generator or agent reading either contract in isolation would generate an unauthenticated
+    client. Captured as an enhancement in overlays/near-space-labs-tile-service-overlay.yaml and
+    overlays/near-space-labs-oauth-service-overlay.yaml.

@@ -1,0 +1,95 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://docs.nearspacelabs.com/surveys-and-coverage, https://docs.nearspacelabs.com/production-tips,
+  https://docs.nearspacelabs.com/status, https://status.nearspacelabs.com/, and the info.version /
+  path families in the provider's Swagger 2.0 contracts.
+description: >-
+  How Near Space Labs versions, deprecates and reports on its API surface. There is a real path-based
+  v2 migration in progress with an explicitly deprecated legacy family, and a real public status page.
+  There is no changelog, no release notes, no dated deprecation schedule and no RFC 8594 Sunset
+  header, so a consumer knows the legacy routes are deprecated but not when they will be removed.
+versioning:
+  scheme: url-path
+  current: /tile/v2/
+  legacy: /tile/
+  contract_version: 1.0.1
+  contract_version_source: info.version in both published Swagger 2.0 documents
+  mechanism: >-
+    Consumers select a version by path segment. There is no version request header, no account-level
+    version pin, and no version negotiation.
+  difference: >-
+    The v2 family returns ISO 8601 timestamps; the un-versioned legacy family returns legacy
+    UTC-formatted timestamps. Operation shapes are otherwise near-identical, which is why the
+    contract carries 19 tile paths for what is really 10 operations in two timestamp dialects.
+  docs: https://docs.nearspacelabs.com/surveys-and-coverage
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  signal: >-
+    Runtime deprecation warnings. Quoted from the docs: "Legacy /tile/surveys routes emit deprecation
+    warnings — stick with the v2 paths." and "Use v2 endpoints — legacy /tile/surveys routes emit
+    deprecation warnings."
+  spec_flags: >-
+    No operation in either Swagger document carries `deprecated: true`, so the deprecation is visible
+    in prose and at runtime but NOT in the machine-readable contract an SDK generator reads.
+  removal_date: null
+  gap: >-
+    No published deprecation policy, no notice period, no sunset date, and no Sunset/Deprecation
+    response headers. A consumer on the legacy paths has no dated migration deadline.
+  deprecated_operations:
+    - GET /tile/surveys
+    - GET /tile/surveys/coverage
+    - GET /tile/{mosaic_id}/coverage
+    - GET /tile/{mosaic_id}/footprint
+    - GET /tile/{mosaic_id}/mosaic_updates
+    - GET /tile/{mosaic_id}/{z}/{x}/{y}
+    - GET /tile/{mosaic_id}/{z}/{x}/{y}.{ext}
+    - GET /tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}
+    - GET /tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext}
+  superseded_by: The identically-shaped /tile/v2/ path for each operation.
+  evidence_source: >-
+    The provider's own Postman collection groups these nine requests under a folder literally named
+    "deprecated" (postman/near-space-labs-postman-collection.json).
+retired_surfaces:
+  - name: Near Space Labs gRPC STAC service
+    status: gone
+    evidence: >-
+      The first-party Python client `nsl.stac` (PyPI 1.2.7, 2023-09-07) targets a gRPC SpatioTemporal
+      Asset Catalog metadata service. Its declared source repository
+      https://github.com/nearspacelabs/stac-client-python now returns 404 and no longer exists in the
+      public GitHub org; api.nearspacelabs.com is NXDOMAIN. The current docs make no mention of gRPC
+      or STAC clients.
+    note: >-
+      api.nearspacelabs.com survives only as the constant `audience` value in the OAuth token
+      request. It is an OAuth audience identifier, not a reachable host.
+status_page:
+  url: https://status.nearspacelabs.com/
+  provider: UptimeRobot (status.nearspacelabs.com is a CNAME to stats.uptimerobot.com)
+  components:
+    - name: Tile Server
+      description: XYZ tile delivery for interactive maps
+    - name: OAuth Server
+      description: Authentication and token management
+  history_window: 90 days of uptime history, 7 days of status updates
+  embedded_summary: https://docs.nearspacelabs.com/status
+  subscribe: Email updates are offered from the status page.
+sla:
+  url: null
+  public_uptime_target: null
+  published_latency_target: '~200 ms median tile latency (docs.nearspacelabs.com Overview, stated as an observed figure not a commitment)'
+  note: No public SLA, uptime commitment, or support-response target is published.
+changelog:
+  url: null
+  published: false
+  note: >-
+    The docs site (Docusaurus) publishes 10 pages and none of them is a changelog or release-notes
+    page; its sitemap.xml confirms this. No ChangeLog pointer is emitted.
+support:
+  channel: https://www.nearspacelabs.com/contact
+  correlation_id: >-
+    Support tickets should quote the x-correlation-id GUID from the error envelope
+    (errors/near-space-labs-problem-types.yml).

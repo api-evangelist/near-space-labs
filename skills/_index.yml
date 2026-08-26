@@ -1,0 +1,36 @@
+generated: '2026-08-26'
+method: generated
+source: >-
+  Packaged Agent Skills generated from the provider's own Swagger 2.0 contracts in ../openapi/ and the
+  developer docs at https://docs.nearspacelabs.com. Neither contract declares operationIds, so every
+  step is grounded in a verbatim method + path verified present in ../openapi/. Cross-cutting rules
+  cite ../conventions/, ../errors/, ../authentication/ and ../lifecycle/. Near Space Labs publishes no
+  skills or AGENTS.md of its own — searched docs.nearspacelabs.com, the site llms.txt and
+  github.com/nearspacelabs.
+description: >-
+  Four marquee flows for the Near Space Labs imagery API: get a credential, find imagery for a place,
+  put tiles on a map, and detect change over time. Together they cover every non-deprecated operation
+  in the Tile Service and both operations in the OAuth Service.
+skills:
+  - file: near-space-labs-authenticate.md
+    name: Authenticate with Near Space Labs
+    api: openapi/near-space-labs-oauth-service.json
+    operations: ['POST /oauth/token', 'POST /oauth/static_key']
+  - file: near-space-labs-find-imagery-for-an-area.md
+    name: Find imagery for an area of interest
+    api: openapi/near-space-labs-tile-service.json
+    operations: ['POST /oauth/token', 'GET /tile/v2/surveys/coverage', 'GET /tile/v2/{mosaic_id}/footprint', 'GET /tile/v2/{mosaic_id}/coverage']
+  - file: near-space-labs-serve-a-basemap.md
+    name: Serve Near Space Labs tiles in a web map
+    api: openapi/near-space-labs-tile-service.json
+    operations: ['POST /oauth/static_key', 'GET /tile/v2/{mosaic_id}/{z}/{x}/{y}.{ext}']
+  - file: near-space-labs-detect-change.md
+    name: Detect change in a survey over time
+    api: openapi/near-space-labs-tile-service.json
+    operations: ['GET /tile/v2/{mosaic_id}/mosaic_updates', 'GET /tile/v2/{mosaic_id}/coverage', 'GET /tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext}']
+operation_grounding_note: >-
+  Verified 2026-08-26: every path referenced above exists in openapi/near-space-labs-tile-service.json
+  or openapi/near-space-labs-oauth-service.json, with one deliberate exception — POST /oauth/static_key
+  is fully documented at https://docs.nearspacelabs.com/authentication but is ABSENT from the OAuth
+  Service contract. It is used in the skills because it is real and documented; the contract gap is
+  recorded in overlays/near-space-labs-oauth-service-overlay.yaml.

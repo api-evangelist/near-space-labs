@@ -1,0 +1,186 @@
+generated: '2026-08-26'
+method: derived
+source: >-
+  Derived from openapi/near-space-labs-tile-service.json and
+  openapi/near-space-labs-oauth-service.json (paths, parameters, response schemas and examples),
+  cross-checked against https://docs.nearspacelabs.com/ and the /.well-known/ probe results in
+  well-known/near-space-labs-well-known.yml. Every `conforms: true` below cites a location in the
+  contract or a line in the provider's own docs.
+description: >-
+  Which cross-cutting and geospatial-domain standards the Near Space Labs contract actually speaks.
+  The API is a conventional OAuth2 + JSON + XYZ-tile surface: it adopts several geospatial
+  interchange standards well (WKT, GeoJSON, EPSG:4326, the OSGeo XYZ/slippy-map tiling scheme, ISO
+  8601) and adopts almost no API-hygiene standards (no RFC 9457, no RFC 8594, no RFC 6750 discovery,
+  no /.well-known/ anything).
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      RFC 6749 client-credentials grant at POST https://api.nearspacelabs.net/oauth/token with
+      grant_type=client_credentials, client_id, client_secret and audience; returns access_token /
+      expires_in / token_type=Bearer. Documented at docs.nearspacelabs.com/authentication and
+      described in openapi/near-space-labs-oauth-service.json.
+  - id: rfc6750-bearer
+    conforms: partial
+    evidence: >-
+      Tokens are presented as `Authorization: Bearer <token>` per RFC 6750 section 2.1. However the
+      alternative static credential is passed as a `?api_key=` URI query parameter, which RFC 6750
+      section 2.3 explicitly deprecates ("SHOULD NOT be used") for exactly the reason the provider
+      itself warns about — the credential ends up in server logs and browser history.
+  - id: oidc
+    conforms: false
+    evidence: No /.well-known/openid-configuration on any host (404 on all four probed).
+  - id: oauth-authorization-server-metadata
+    conforms: false
+    evidence: >-
+      RFC 8414 metadata is not served — /.well-known/oauth-authorization-server 404s on
+      api.nearspacelabs.net, docs.nearspacelabs.com and www.nearspacelabs.com. The token endpoint is
+      discoverable only from prose docs.
+  - id: rfc9457
+    conforms: false
+    evidence: >-
+      Errors use a flat custom envelope {error, message, status_code, x-correlation-id} with
+      Content-Type application/json, not application/problem+json. See
+      errors/near-space-labs-problem-types.yml.
+  - id: rfc8594-sunset
+    conforms: false
+    evidence: >-
+      Nine legacy /tile/ operations are described as deprecated in the docs and grouped under a
+      "deprecated" folder in the provider's Postman collection, but no Sunset or Deprecation response
+      header is documented and no operation carries `deprecated: true` in the contract.
+  - id: pagination
+    conforms: true
+    evidence: >-
+      Page-number pagination on GET /tile/v2/surveys — request `page` and `page_size`, response
+      `page`, `page_size`, `has_next`, `total_pages`, `total_results`, `results[]`. Schema and
+      example are both published in openapi/near-space-labs-tile-service.json.
+  - id: idempotency
+    conforms: na
+    evidence: >-
+      Read-only API. 19 of 20 operations are GET and are idempotent by HTTP semantics; no
+      client-supplied idempotency key exists or is needed.
+  - id: rate-limit-headers
+    conforms: false
+    evidence: >-
+      429 is documented as the exhaustion status, but no X-RateLimit-*, RateLimit-* (draft IETF
+      ratelimit-headers) or Retry-After header is published.
+  - id: http-conditional-requests
+    conforms: partial
+    evidence: >-
+      docs.nearspacelabs.com/production-tips instructs clients to "Use If-None-Match headers when
+      caching tile responses to avoid re-downloads" (RFC 9110 conditional requests), but the ETag
+      response header this depends on is not documented in the contract.
+  - id: iso8601
+    conforms: true
+    evidence: >-
+      The /tile/v2/ family is defined by its ISO 8601 timestamps — capture_date_start,
+      capture_date_end, last_updated, published_date, and the since/until/observed_start/observed_end
+      query parameters. Its whole reason for existing is that the legacy family used a different
+      timestamp dialect.
+  - id: openapi
+    conforms: partial
+    evidence: >-
+      Two machine-readable contracts are published and parse cleanly, but both are Swagger 2.0
+      (2014), not OpenAPI 3.x, and both omit operationIds, tags, securityDefinitions and host /
+      basePath / schemes. See overlays/ for the gaps captured as an Overlay.
+  - id: postman-collection-v2.1
+    conforms: true
+    evidence: >-
+      https://docs.nearspacelabs.com/nsl_postman.json declares schema
+      https://schema.getpostman.com/json/collection/v2.1.0/collection.json and covers 13 requests
+      across both services.
+  - id: llms-txt
+    conforms: true
+    evidence: >-
+      https://www.nearspacelabs.com/llms.txt returns 200 text/plain and follows the llms.txt
+      convention (H1, blockquote summary, H2 sections of annotated links). Saved verbatim to
+      llms/near-space-labs-llms.txt.
+domain_standards:
+  description: >-
+    Geospatial / Earth-observation domain standards the CONTRACT itself declares, with the exact
+    location in the spec that proves it. Reward-only: nothing is asserted that the contract does not
+    show.
+  standards:
+    - id: ogc-wkt
+      name: OGC Well-Known Text geometry (ISO/IEC 13249-3 / OGC Simple Features)
+      conforms: true
+      evidence: >-
+        `wkt` is a REQUIRED query parameter on GET /tile/v2/surveys/coverage and
+        GET /tile/v2/{mosaic_id}/coverage, and the footprint response schema in
+        openapi/near-space-labs-tile-service.json describes its `footprint` field verbatim as
+        "WKT (Well-Known Text) string representing the survey footprint geometry", with a published
+        example value beginning "POLYGON ((-115.29052734375 36.17335693522159, ...".
+      spec_location: paths./tile/v2/{mosaic_id}/footprint.get.responses.200.content.application/json.schema.properties.footprint
+    - id: epsg-4326
+      name: EPSG:4326 / WGS 84 geodetic coordinate reference system
+      conforms: true
+      evidence: >-
+        docs.nearspacelabs.com/surveys-and-coverage states "Send WKT in EPSG:4326"; the published
+        `geospatial_extent` example values on the coverage and mosaic_updates operations are
+        decimal-degree bounding boxes ([-115.29052734375, 36.17335693522159, -115.2685546875,
+        36.191092021824524]).
+      spec_location: paths./tile/v2/{mosaic_id}/coverage.get.responses.200 examples
+    - id: xyz-slippy-map-tiles
+      name: OSGeo Slippy Map / XYZ tile scheme (Web Mercator tile pyramid)
+      conforms: true
+      evidence: >-
+        Every tile operation is literally shaped /{z}/{x}/{y}[.{ext}] with integer path parameters
+        z, x, y over zoom 14-21 and 256x256 px PNG/JPEG tiles — the standard XYZ contract that any
+        Leaflet / MapLibre / OpenLayers client consumes without a bespoke connector. The provider
+        calls it "a standards-based XYZ tile service" on the docs Overview.
+      spec_location: 'paths./tile/v2/{mosaic_id}/{z}/{x}/{y}.{ext}'
+    - id: stac
+      name: SpatioTemporal Asset Catalog (STAC)
+      conforms: partial
+      evidence: >-
+        STAC is present in the contract as an IDENTIFIER SCHEME, not as a STAC API. The path
+        parameter `mosaic_stac_id` appears on four tile operations and is echoed as a
+        `mosaic_stac_id` field in the coverage and mosaic_updates response examples (e.g.
+        "20241101T181751_20241101T182126_20241101T193155_02301310020223"). The company previously
+        shipped a full gRPC STAC catalog client (PyPI nsl.stac), but that surface and its repository
+        are gone (see lifecycle/). The current REST API exposes NO STAC API endpoints — no
+        /collections, no /search, no /items, no STAC Item or Collection JSON — so a STAC client
+        cannot talk to it.
+      spec_location: 'paths./tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}'
+      buyer_impact: >-
+        This is the largest interoperability gap on the API. STAC is the interchange standard for
+        Earth-observation catalogs; a buyer whose stack already speaks STAC (pystac, stac-browser,
+        ArcGIS, QGIS STAC plugins, Planet/Maxar/Sentinel pipelines) must write a bespoke connector
+        for Near Space Labs surveys even though the underlying ids are already STAC ids.
+    - id: geojson
+      name: GeoJSON (RFC 7946)
+      conforms: partial
+      evidence: >-
+        docs.nearspacelabs.com/surveys-and-coverage describes /tile/v2/{survey_id}/footprint as
+        returning "the GeoJSON footprint + properties". The published contract and its own example
+        disagree: the 200 schema returns {"footprint": "<WKT string>", "status": 200, "survey_id":
+        "..."} — a WKT string inside a JSON object, not a GeoJSON Feature. Recorded as a
+        docs-vs-contract conflict rather than a conformance claim.
+      spec_location: 'paths./tile/v2/{mosaic_id}/footprint.get.responses.200'
+    - id: ogc-api-tiles
+      name: OGC API - Tiles
+      conforms: false
+      evidence: >-
+        No /tileMatrixSets, no tiling-scheme declaration, no OGC API landing page or conformance
+        document is served. The tile surface is the de-facto XYZ convention, not the OGC standard.
+    - id: ogc-wms-wmts
+      name: OGC WMS / WMTS
+      conforms: false
+      evidence: No GetCapabilities document is served on api.nearspacelabs.net.
+    - id: acord
+      name: ACORD insurance data standards
+      conforms: false
+      evidence: >-
+        Probed because P&C insurance underwriting is the provider's lead vertical (llms.txt,
+        /industries/insurance) and ACORD is the regime standard for that sector. Near Space Labs
+        sells imagery into insurance rather than exchanging policy/claim data, and no ACORD message
+        type, AL3 or ACORD XML shape appears anywhere in the contract. Correctly not applicable.
+compliance:
+  certifications: []
+  trust_center: null
+  vulnerability_disclosure: null
+  note: >-
+    No SOC 2, ISO 27001, PCI, HIPAA or FedRAMP claim appears on nearspacelabs.com; trust.nearspacelabs.com
+    and security.nearspacelabs.com are NXDOMAIN; /security, /trust and /compliance all 404; no
+    security.txt on any host. No `Compliance`, `TrustCenter` or `Security` pointer is emitted, because
+    there is nothing published to point at.

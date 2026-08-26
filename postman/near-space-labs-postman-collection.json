@@ -1,0 +1,772 @@
+{
+	"info": {
+		"_postman_id": "7eedea8e-e8a4-4e4b-af7f-3e4c95650c26",
+		"name": "Near Space Labs API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4580393",
+		"_collection_link": "https://restless-trinity-452766.postman.co/workspace/My-Workspace~a456582e-74db-4b86-8564-39d648d72135/collection/4580393-7eedea8e-e8a4-4e4b-af7f-3e4c95650c26?action=share&source=collection_link&creator=4580393"
+	},
+	"item": [
+		{
+			"name": "Tile Service",
+			"item": [
+				{
+					"name": "deprecated",
+					"item": [
+						{
+							"name": "/tile/{survey}/coverage",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nearspacelabs.net/tile/2024Q2-NV-LAS/coverage?zoom=14&wkt=POINT (-115.268641 36.173426)&overlap=intersects",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nearspacelabs",
+										"net"
+									],
+									"path": [
+										"tile",
+										"2024Q2-NV-LAS",
+										"coverage"
+									],
+									"query": [
+										{
+											"key": "tc",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "zoom",
+											"value": "14"
+										},
+										{
+											"key": "wkt",
+											"value": "POINT (-115.268641 36.173426)"
+										},
+										{
+											"key": "overlap",
+											"value": "intersects"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tile/surveys",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nearspacelabs.net/tile/surveys",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nearspacelabs",
+										"net"
+									],
+									"path": [
+										"tile",
+										"surveys"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tile/surveys/coverage",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nearspacelabs.net/tile/surveys/coverage?zoom=14&overlap=intersects&wkt=POINT (-82.135849 27.014784)",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nearspacelabs",
+										"net"
+									],
+									"path": [
+										"tile",
+										"surveys",
+										"coverage"
+									],
+									"query": [
+										{
+											"key": "tc",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "zoom",
+											"value": "14"
+										},
+										{
+											"key": "overlap",
+											"value": "intersects"
+										},
+										{
+											"key": "wkt",
+											"value": "POINT (-82.135849 27.014784)"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tile/{mosaic_id}/{z}/{x}/{y}",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nearspacelabs.net/tile/2024Q4-FL-PTCH/20/285130/442535",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nearspacelabs",
+										"net"
+									],
+									"path": [
+										"tile",
+										"2024Q4-FL-PTCH",
+										"20",
+										"285130",
+										"442535"
+									],
+									"query": [
+										{
+											"key": "metadata",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tile/{mosaic_id}/mosaic_updates",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.nearspacelabs.net/tile/2024Q4-FL-PTCH/mosaic_updates?since=2024-11-13 17:55:10&include_percent_covered=1&until=2024-11-13 17:55:12",
+									"protocol": "https",
+									"host": [
+										"api",
+										"nearspacelabs",
+										"net"
+									],
+									"path": [
+										"tile",
+										"2024Q4-FL-PTCH",
+										"mosaic_updates"
+									],
+									"query": [
+										{
+											"key": "since",
+											"value": "2024-11-13 17:55:10"
+										},
+										{
+											"key": "include_percent_covered",
+											"value": "1"
+										},
+										{
+											"key": "until",
+											"value": "2024-11-13 17:55:12"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/tile/v2/{survey}/coverage",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.nearspacelabs.net/tile/v2/2024Q2-NV-LAS/coverage?zoom=14&wkt=POINT (-115.268641 36.173426)&overlap=intersects",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nearspacelabs",
+								"net"
+							],
+							"path": [
+								"tile",
+								"v2",
+								"2024Q2-NV-LAS",
+								"coverage"
+							],
+							"query": [
+								{
+									"key": "tc",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "zoom",
+									"value": "14"
+								},
+								{
+									"key": "wkt",
+									"value": "POINT (-115.268641 36.173426)"
+								},
+								{
+									"key": "overlap",
+									"value": "intersects"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tile/v2/{survey}/footprint",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.nearspacelabs.net/tile/v2/2024Q2-NV-LAS/footprint",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nearspacelabs",
+								"net"
+							],
+							"path": [
+								"tile",
+								"v2",
+								"2024Q2-NV-LAS",
+								"footprint"
+							],
+							"query": [
+								{
+									"key": "tc",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tile/v2/surveys/coverage",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.nearspacelabs.net/tile/v2/surveys/coverage?zoom=14&overlap=intersects&wkt=POINT (-82.135849 27.014784)",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nearspacelabs",
+								"net"
+							],
+							"path": [
+								"tile",
+								"v2",
+								"surveys",
+								"coverage"
+							],
+							"query": [
+								{
+									"key": "tc",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "zoom",
+									"value": "14"
+								},
+								{
+									"key": "overlap",
+									"value": "intersects"
+								},
+								{
+									"key": "wkt",
+									"value": "POINT (-82.135849 27.014784)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tile/v2/{mosaic_id}/{z}/{x}/{y}",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.nearspacelabs.net/tile/v2/2024Q4-FL-PTCH/20/285130/442535",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nearspacelabs",
+								"net"
+							],
+							"path": [
+								"tile",
+								"v2",
+								"2024Q4-FL-PTCH",
+								"20",
+								"285130",
+								"442535"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tile/v2/{mosaic_id}/{z}/{x}/{y}?metadata=1 (tile metadata)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.nearspacelabs.net/tile/v2/2024Q4-FL-PTCH/20/285130/442535?metadata=",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nearspacelabs",
+								"net"
+							],
+							"path": [
+								"tile",
+								"v2",
+								"2024Q4-FL-PTCH",
+								"20",
+								"285130",
+								"442535"
+							],
+							"query": [
+								{
+									"key": "metadata",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tile/v2/{mosaic_id}/mosaic_updates",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.nearspacelabs.net/tile/v2/2024Q4-FL-PTCH/mosaic_updates?since=2024-11-13 17:55:10&include_percent_covered=1&until=2024-11-13 17:55:12",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nearspacelabs",
+								"net"
+							],
+							"path": [
+								"tile",
+								"v2",
+								"2024Q4-FL-PTCH",
+								"mosaic_updates"
+							],
+							"query": [
+								{
+									"key": "since",
+									"value": "2024-11-13 17:55:10"
+								},
+								{
+									"key": "include_percent_covered",
+									"value": "1"
+								},
+								{
+									"key": "until",
+									"value": "2024-11-13 17:55:12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tile/v2/surveys",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.nearspacelabs.net/tile/v2/surveys",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nearspacelabs",
+								"net"
+							],
+							"path": [
+								"tile",
+								"v2",
+								"surveys"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OAuth",
+			"item": [
+				{
+					"name": "/oauth/token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n                \"client_id\": \"{{NSL_ID}}\",\n                \"client_secret\": \"{{NSL_SECRET}}\",\n                \"grant_type\": \"client_credentials\",\n                \"audience\": \"https://api.nearspacelabs.com\"\n            }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.nearspacelabs.net/oauth/token",
+							"protocol": "https",
+							"host": [
+								"api",
+								"nearspacelabs",
+								"net"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "Generated from cURL: curl --location --request POST \"https://sandbox.nearspacelabs.net/oauth/token\" \\\n            --header 'Content-Type: application/json' \\\n            --data-raw \"{\n                \\\"client_id\\\": \\\"$NSL_ID\\\",\n                \\\"client_secret\\\": \\\"$NSL_SECRET\\\",\n                \\\"grant_type\\\": \\\"client_credentials\\\",\n                \\\"audience\\\": \\\"https://api.nearspacelabs.com\\\"\n            }\""
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"// Define the token URL, client credentials, and other required details",
+					"const tokenUrl = 'https://api.nearspacelabs.net/oauth/token'; ",
+					"const clientId = pm.collectionVariables.get(\"NSL_ID\"); ",
+					"const clientSecret = pm.collectionVariables.get(\"NSL_SECRET\");",
+					"",
+					"// Set the body of the POST request (client_credentials grant type)",
+					"const requestBody = {",
+					"  grant_type: 'client_credentials',",
+					"  client_id: clientId,",
+					"  client_secret: clientSecret,",
+					"};",
+					"",
+					"// Send the POST request to get the token",
+					"pm.sendRequest({",
+					"  url: tokenUrl,",
+					"  method: 'POST',",
+					"  header: {",
+					"    'Content-Type': 'application/x-www-form-urlencoded',",
+					"  },",
+					"  body: {",
+					"    mode: 'urlencoded',",
+					"    urlencoded: Object.keys(requestBody).map(key => ({",
+					"      key: key,",
+					"      value: requestBody[key],",
+					"    })),",
+					"  },",
+					"}, function (err, res) {",
+					"  if (err) {",
+					"    console.log('Error fetching access token:', err);",
+					"  } else {",
+					"    const responseJson = res.json();",
+					"    if (responseJson.access_token) {",
+					"      // Save the access token to the environment variable",
+					"      pm.environment.set('access_token', responseJson.access_token);",
+					"      console.log('Access token saved:', responseJson.access_token);",
+					"    } else {",
+					"      console.log('No access token found in response');",
+					"    }",
+					"  }",
+					"});",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "NSL_ID",
+			"value": ""
+		},
+		{
+			"key": "NSL_SECRET",
+			"value": ""
+		}
+	]
+}

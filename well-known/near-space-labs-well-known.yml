@@ -1,0 +1,86 @@
+generated: '2026-08-26'
+method: probed
+source: >-
+  Live HTTP probes of the /.well-known/ discovery surface on every host in apis.yml
+  (baseURL + humanURL) plus the marketing host, run 2026-08-26.
+description: >-
+  Near Space Labs serves NO /.well-known/ discovery documents on any host. Every probed
+  path returned 404 with an HTML body (the marketing site is Webflow, the docs site is
+  Docusaurus, and api.nearspacelabs.net returns a bare 404). Because nothing was served,
+  no WellKnown or SecurityTxt pointer is emitted in apis.yml — this file records a
+  verified absence, not a presence. The one machine-readable discovery document the
+  company does publish is an llms.txt at the marketing root (see llms/), which is not a
+  /.well-known/ path.
+hosts:
+  - host: https://api.nearspacelabs.net
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://docs.nearspacelabs.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://www.nearspacelabs.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://status.nearspacelabs.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+other_discovery_probes:
+  - url: https://www.nearspacelabs.com/llms.txt
+    status: 200
+    note: Real llms.txt, saved verbatim to llms/near-space-labs-llms.txt.
+  - url: https://www.nearspacelabs.com/robots.txt
+    status: 200
+  - url: https://docs.nearspacelabs.com/robots.txt
+    status: 404
+  - url: https://api.nearspacelabs.net/robots.txt
+    status: 404

@@ -1,0 +1,43 @@
+# Near Space Labs
+
+> Near Space Labs delivers high-frequency, 7cm resolution aerial imagery at scale through a proprietary stratospheric data capture platform. Earth intelligence, without compromise.
+
+Near Space Labs operates autonomous stratospheric vehicles at 65,000 feet to capture orthoimagery across 80% of the US, refreshed twice a year. Our imagery serves P&C insurance underwriting, state and local government GIS programs, utility and infrastructure monitoring, forestry and environmental monitoring, mapping technology platforms, and roofing and home services.
+
+## Core company pages
+
+- [Home](https://www.nearspacelabs.com/): Near Space Labs overview — high-resolution Earth observation from the stratosphere
+- [Our Tech](https://www.nearspacelabs.com/tech): Stratospheric balloon platform, autonomous navigation, AI-powered processing, FAA-compliant operations
+- [Our Story](https://www.nearspacelabs.com/story): Mission, history, and why Near Space Labs is modernizing Earth observation
+- [Sustainability](https://www.nearspacelabs.com/sustainability): Climate resilience and how 7cm imagery supports risk monitoring and infrastructure protection
+- [Leadership](https://www.nearspacelabs.com/leadership): Team of aerospace engineers, computer vision specialists, and stratospheric systems experts
+- [Careers](https://www.nearspacelabs.com/careers): Open roles and general interest applications
+- [Contact](https://www.nearspacelabs.com/contact): Request a demo or sales inquiry
+
+## Solutions
+
+- [Nationwide Program](https://www.nearspacelabs.com/solutions/nationwide-program): 7cm coverage across 80% of the US, refreshed twice a year
+- [Infrastructure Monitoring](https://www.nearspacelabs.com/solutions/infrastructure-monitoring): Proactive monitoring of roads, pipelines, utilities, and critical assets without field inspections
+- [Environmental Monitoring](https://www.nearspacelabs.com/solutions/environmental-monitoring): Wildfire risk, vegetation health, and land-use change detection
+- [Geospatial Services](https://www.nearspacelabs.com/solutions/geospatial-services): Custom 7cm capture for any area or project, delivered 10x faster than fixed-wing programs
+- [Hosted Payloads](https://www.nearspacelabs.com/solutions/hosted-payloads): Launch sensors and payloads to the stratosphere with FAA-compliant flight operations
+
+## Industries
+
+- [P&C Insurance](https://www.nearspacelabs.com/industries/insurance): Current property data for underwriting and pre-event baseline imagery for claims
+- [State & Local Government](https://www.nearspacelabs.com/industries/state-local-government): Consistent 7cm imagery across urban and rural jurisdictions for GIS programs and disaster response
+- [Energy & Utilities](https://www.nearspacelabs.com/industries/energy-utilities): Power line, pipeline, and right-of-way monitoring with thermal capabilities
+- [Forestry & Environment](https://www.nearspacelabs.com/industries/forestry-environment): Forest health, carbon offset verification, wildfire risk assessment
+- [Mapping Technology](https://www.nearspacelabs.com/industries/mapping-technology): Consistent high-resolution basemaps for GIS, navigation, and analytics products
+- [Roofing & Home Services](https://www.nearspacelabs.com/industries/roofing-home-services): Roof condition assessment, material identification, and property change detection for lead generation
+
+## Resources
+
+- [Projects](https://www.nearspacelabs.com/projects): Real-world case studies across insurance, government, and utilities
+- [Blog](https://www.nearspacelabs.com/blog): Insights on climate resilience, Earth observation technology, and geospatial intelligence
+- [Press](https://www.nearspacelabs.com/press): Media coverage of Near Space Labs
+- [API Docs](https://docs.nearspacelabs.com/): Developer documentation for accessing imagery programmatically
+
+## Differentiators
+
+Near Space Labs captures imagery at 2-4x the altitude of traditional aerial providers, giving us 10x the data capture per mission while leading the industry at 7cm resolution. We deliver all four properties — high resolution, high frequency, wide-scale capture, and cost effectiveness — without the tradeoffs legacy providers force customers to make.

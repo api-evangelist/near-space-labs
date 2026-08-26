@@ -1,0 +1,44 @@
+{
+  "has_next": false,
+  "page": 1,
+  "page_size": 25,
+  "results": [
+    {
+      "capture_date_end": "2025-10-29T18:53:43.502357Z",
+      "capture_date_start": "2025-10-25T18:01:11.705819Z",
+      "id": "2025-P01-CO-DEN",
+      "last_updated": "2025-12-02T17:32:02Z",
+      "spectral_range": "visible"
+    },
+    {
+      "capture_date_end": "2025-10-19T19:16:25.778189Z",
+      "capture_date_start": "2025-09-22T19:27:03.636264Z",
+      "id": "2025-P1-MN-MSP",
+      "last_updated": "2025-11-28T19:50:21Z",
+      "spectral_range": "visible"
+    },
+    {
+      "capture_date_end": "2024-12-08T17:44:12.804971Z",
+      "capture_date_start": "2024-12-04T16:24:55.440096Z",
+      "id": "2024Q4-SC-CAE",
+      "last_updated": "2025-11-09T00:12:22Z",
+      "spectral_range": "visible"
+    },
+    {
+      "capture_date_end": "2024-11-01T18:43:25.875208Z",
+      "capture_date_start": "2024-10-29T15:32:08.790178Z",
+      "id": "2024Q4-FL-PTCH",
+      "last_updated": "2025-11-08T23:29:27Z",
+      "spectral_range": "visible"
+    },
+    {
+      "capture_date_end": "2024-11-08T19:44:40.628561Z",
+      "capture_date_start": "2024-11-05T19:28:29.204699Z",
+      "id": "2024Q4-CA-RVSD",
+      "last_updated": "2025-11-08T23:24:51Z",
+      "spectral_range": "visible"
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 5
+}

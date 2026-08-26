@@ -1,0 +1,100 @@
+generated: '2026-08-26'
+method: searched
+format: custom-json-envelope
+source: >-
+  https://docs.nearspacelabs.com/error-handling (the published status-code table and error payload
+  structure), enriched with the per-operation 4xx/5xx response descriptions derived from
+  openapi/near-space-labs-tile-service.json and openapi/near-space-labs-oauth-service.json.
+description: >-
+  Near Space Labs does NOT use RFC 9457 application/problem+json. Every 4xx and 5xx response returns
+  a flat JSON object with four fields, one of which is a correlation GUID the provider asks you to
+  quote in support tickets. There is no machine-readable error-code registry — `error` carries a
+  short code string whose vocabulary is not enumerated anywhere the public can read, so an agent can
+  branch on HTTP status but not on error code.
+envelope:
+  media_type: application/json
+  rfc9457: false
+  shape: '{ "error": "<Error code>", "message": "<Error message>", "status_code": "<Status code>", "x-correlation-id": "<GUID>" }'
+  fields:
+    error: A short error code string. The set of possible values is not published.
+    message: Human-readable description of the failure.
+    status_code: The HTTP status code, repeated in the body.
+    x-correlation-id: >-
+      A GUID identifying the request. "Persist the x-correlation-id when filing support
+      tickets — we can trace requests instantly."
+  applies_to: all 4xx and 5xx responses on both services
+problems:
+  - status: 400
+    title: Bad Request
+    meaning: Request validation failed — missing parameters, malformed WKT, and similar.
+    remediation: >-
+      Confirm WKT polygons are valid and in EPSG:4326, that required query parameters are present,
+      and that zoom levels are within 14-21.
+    retryable: false
+    docs: https://docs.nearspacelabs.com/error-handling
+  - status: 401
+    title: Unauthorized
+    meaning: >-
+      Token is missing, expired, or invalid. On POST /oauth/token this is also returned for an
+      incorrect NSL_ID or NSL_SECRET; the provider's own example body for that case is
+      {"error": "incorrect NSL_ID or NSL_SECRET"}.
+    remediation: >-
+      Refresh the token via POST /oauth/token and retry. Refresh proactively at ~55 minutes
+      (expires_in - 300) to avoid hitting this at all.
+    retryable: true
+    docs: https://docs.nearspacelabs.com/authentication
+  - status: 403
+    title: Forbidden
+    meaning: The credential is valid but carries insufficient permissions for the resource.
+    remediation: >-
+      Contact Near Space Labs — permissions are attached to the credential pair at issuance and
+      cannot be changed by the client (there is no scope surface).
+    retryable: false
+    note: Declared on every tile operation in the contract, but not listed in the docs status table.
+  - status: 404
+    title: Not Found
+    meaning: >-
+      Survey, tile, or mosaic id not found. Also the normal, expected response for a tile request at
+      coordinates where no imagery exists.
+    remediation: >-
+      For out-of-bounds tiles this is not an error condition — render a transparent placeholder,
+      skip the tile, or fall back to a basemap. Call /tile/v2/{survey_id}/coverage first to
+      enumerate valid tile coordinates and avoid it.
+    retryable: false
+    docs: https://docs.nearspacelabs.com/retrieving-tiles
+  - status: 422
+    title: Unprocessable Entity
+    meaning: >-
+      Parameters are well-formed but cannot be satisfied — a zoom level outside the supported range,
+      or a survey id that exists but has no coverage for the requested area.
+    remediation: Narrow or correct the AOI, or pick a zoom inside 14-21.
+    retryable: false
+    docs: https://docs.nearspacelabs.com/error-handling
+  - status: 429
+    title: Too Many Requests
+    meaning: Rate limit exceeded.
+    remediation: >-
+      Back off and retry after a delay. No Retry-After header and no numeric limit are documented,
+      so use exponential backoff with jitter.
+    retryable: true
+    detail: rate-limits/near-space-labs-rate-limits.yml
+  - status: 500
+    title: Internal Server Error
+    meaning: >-
+      Unexpected failure. The contract's own per-operation wording is "Internal Server Error -
+      Contract error or unexpected failure" on the catalog endpoints.
+    remediation: Retry with exponential backoff.
+    retryable: true
+  - status: 503
+    title: Service Unavailable
+    meaning: Backend service error — the service is temporarily unavailable.
+    remediation: Retry with exponential backoff; check https://status.nearspacelabs.com/.
+    retryable: true
+gaps:
+  - No enumerated error-code vocabulary — the `error` field's possible values are undocumented.
+  - >-
+    The 422 status documented in the error-handling page is not declared on any operation in the
+    Swagger contract; the 403 declared on every operation is absent from the docs status table.
+    The two sources disagree in both directions.
+  - >-
+    No RFC 9457 type URIs, so errors cannot be dereferenced or matched by a stable identifier.

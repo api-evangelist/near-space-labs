@@ -1,0 +1,19 @@
+[
+  {
+    "capture_date_end": "2022-08-28 18:10:21 UTC",
+    "capture_date_start": "2022-01-29 18:06:15 UTC",
+    "file_format": "png",
+    "geospatial_extent": [
+      -97.74124145507812,
+      30.274486436999457,
+      -97.7398681640625,
+      30.27567243159789
+    ],
+    "mosaic_stac_id": "20220129T1806_20220828T1805_20230413T0956_02313012033113",
+    "percent_covered": 100,
+    "published_date": "2023-04-13 09:54:52 UTC",
+    "spatial_resolution_class": "10cm",
+    "spectral_range": "visible",
+    "static_url": "https://api.nearspacelabs.net/tile/surveyid/20220129T1806_20220828T1805_20230413T0956_02313012033113/18/59899/107922"
+  }
+]

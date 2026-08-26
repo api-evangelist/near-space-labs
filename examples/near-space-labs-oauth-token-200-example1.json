@@ -1,0 +1,7 @@
+[
+  {
+    "access_token": "eyJhbGciO..",
+    "expires_in": 3600,
+    "token_type": "Bearer"
+  }
+]

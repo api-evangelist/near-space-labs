@@ -1,18 +1,97 @@
 aid: near-space-labs
 name: Near Space Labs
-description: 'Near Space Labs is a company surfaced via the API Evangelist harvest backlog (source: secondary-market;
-  backed by leadout-capital) and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Near Space Labs is a New York based Earth-observation company that operates a fleet of autonomous,
+  wind-navigated stratospheric vehicles ("Swifty") flying at roughly 65,000 feet to capture 7cm-resolution
+  orthoimagery across approximately 80% of the United States, refreshed twice a year. Imagery is delivered
+  programmatically through a public developer surface at docs.nearspacelabs.com: an OAuth 2.0 client-credentials
+  token service and a standards-based XYZ Tile Service on api.nearspacelabs.net that streams PNG/JPEG tiles at
+  zoom 14-21, exposes paginated survey catalogs, GeoJSON footprints, WKT-based coverage queries and mosaic-update
+  feeds. Both services publish machine-readable Swagger 2.0 contracts and share a single Postman collection.
+  Customers use the imagery for P&C insurance underwriting and claims, state and local government GIS, utility
+  and infrastructure monitoring, forestry and wildfire risk, mapping basemaps, and roofing and home services.
+image: https://cdn.prod.website-files.com/699b3c4514bfe203a098fbc3/69ea4c7bdbd743e1fa21e934_logo.png
 url: https://raw.githubusercontent.com/api-evangelist/near-space-labs/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment-pipeline
 specificationVersion: '0.20'
 created: '2026-08-26'
 modified: '2026-08-26'
 tags:
 - Company
-apis: []
+- Earth Observation
+- Aerial Imagery
+- Geospatial
+- Satellite and Remote Sensing
+- Mapping
+- Tiles
+- Insurance
+- Government
+- Utilities
+- Location
+- Imagery
+apis:
+- name: Near Space Labs Tile Service
+  description: >-
+    A standards-based XYZ tile service for Near Space Labs stratospheric aerial imagery. Serves both the
+    latest and historical mosaics as 256x256 PNG/JPEG tiles between zoom 14 and 21, plus a paginated survey
+    catalog, per-survey GeoJSON footprints, WKT area-of-interest coverage queries that return tile footprints
+    with static tile URLs, and a mosaic_updates feed for change detection. The v2 path family carries ISO 8601
+    timestamps; the un-versioned /tile/ family is legacy and emits deprecation warnings.
+  humanURL: https://docs.nearspacelabs.com/api/tile-server
+  baseURL: https://api.nearspacelabs.net
+  tags:
+  - Aerial Imagery
+  - Tiles
+  - Geospatial
+  - Earth Observation
+  properties:
+  - type: OpenAPI
+    url: openapi/near-space-labs-tile-service.json
+  - type: Overlay
+    url: overlays/near-space-labs-tile-service-overlay.yaml
+  - type: Documentation
+    url: https://docs.nearspacelabs.com/retrieving-tiles
+  - type: APIReference
+    url: https://docs.nearspacelabs.com/api/tile-server
+  - type: Postman
+    url: postman/near-space-labs-postman-collection.json
+  - type: ErrorCatalog
+    url: errors/near-space-labs-problem-types.yml
+  - type: DataModel
+    url: data-model/near-space-labs-data-model.yml
+  - type: Conventions
+    url: conventions/near-space-labs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/near-space-labs-rate-limits.yml
+  - type: Authentication
+    url: authentication/near-space-labs-authentication.yml
+- name: Near Space Labs OAuth Service
+  description: >-
+    The authentication service for every Near Space Labs API. Exchanges an NSL client id and client secret for
+    a 60-minute Bearer JWT via OAuth 2.0 client credentials at POST /oauth/token, and issues long-lived
+    one-year static API keys via POST /oauth/static_key for embedding tiles in web maps where token refresh
+    is impractical. Tokens are presented as an Authorization Bearer header; static keys travel as an api_key
+    query parameter.
+  humanURL: https://docs.nearspacelabs.com/api/oauth
+  baseURL: https://api.nearspacelabs.net
+  tags:
+  - Authentication
+  - OAuth
+  - Security
+  properties:
+  - type: OpenAPI
+    url: openapi/near-space-labs-oauth-service.json
+  - type: Overlay
+    url: overlays/near-space-labs-oauth-service-overlay.yaml
+  - type: Documentation
+    url: https://docs.nearspacelabs.com/authentication
+  - type: APIReference
+    url: https://docs.nearspacelabs.com/api/oauth
+  - type: Authentication
+    url: authentication/near-space-labs-authentication.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -22,4 +101,59 @@ x-backed-by:
 - leadout-capital
 common:
 - type: Website
-  url: https://www.hiive.com/securities/near-space-labs-stock
+  url: https://www.nearspacelabs.com/
+- type: DeveloperPortal
+  url: https://docs.nearspacelabs.com/
+- type: Documentation
+  url: https://docs.nearspacelabs.com/
+- type: APIReference
+  url: https://docs.nearspacelabs.com/api/tile-server
+- type: GettingStarted
+  url: https://docs.nearspacelabs.com/authentication
+- type: Support
+  url: https://www.nearspacelabs.com/contact
+- type: Blog
+  url: https://www.nearspacelabs.com/blog
+- type: GitHubOrganization
+  url: https://github.com/nearspacelabs
+- type: PrivacyPolicy
+  url: https://www.nearspacelabs.com/privacy-policy
+- type: StatusPage
+  url: https://status.nearspacelabs.com/
+- type: Postman
+  url: https://docs.nearspacelabs.com/nsl_postman.json
+- type: LLMsTxt
+  url: llms/near-space-labs-llms.txt
+- type: Packages
+  url: packages/near-space-labs-packages.yml
+- type: SDKs
+  url: packages/near-space-labs-packages.yml
+- type: Authentication
+  url: authentication/near-space-labs-authentication.yml
+- type: Conventions
+  url: conventions/near-space-labs-conventions.yml
+- type: ErrorCatalog
+  url: errors/near-space-labs-problem-types.yml
+- type: Conformance
+  url: conformance/near-space-labs-conformance.yml
+- type: DataModel
+  url: data-model/near-space-labs-data-model.yml
+- type: Lifecycle
+  url: lifecycle/near-space-labs-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/near-space-labs-lifecycle.yml
+- type: RateLimits
+  url: rate-limits/near-space-labs-rate-limits.yml
+- type: Plans
+  url: plans/near-space-labs-plans-pricing.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/near-space-labs-domain-security.yml
+- type: Examples
+  url: examples/near-space-labs-examples.yml
+x-enrichment:
+  date: '2026-08-26'
+  status: enriched
+  artifacts_added: 48
+  pass: local-v1

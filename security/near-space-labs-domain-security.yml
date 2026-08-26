@@ -1,0 +1,32 @@
+generated: '2026-08-26'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.nearspacelabs.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 27 01:49:19 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: docs.nearspacelabs.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 21 15:19:36 2026 GMT
+  hsts: false
+- host: api.nearspacelabs.net
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 30 14:27:02 2026 GMT
+  hsts: null
+domains:
+- domain: nearspacelabs.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none
+- domain: nearspacelabs.net
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: false

@@ -1,0 +1,55 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Near Space Labs OAuth Service
+  version: 1.0.0
+extends: ../openapi/near-space-labs-oauth-service.json
+x-provenance:
+  generated: '2026-08-26'
+  method: generated
+  source: >-
+    Enhancements API Evangelist would apply to the provider's own Swagger 2.0 contract fetched
+    verbatim from https://api.nearspacelabs.net/oauth/openapi/oauth on 2026-08-26. The original is
+    never mutated. Every value below comes from https://docs.nearspacelabs.com/authentication or from
+    the contract itself.
+x-gaps-addressed:
+  - No `host` or `basePath` is declared, so the token endpoint cannot be resolved from the contract. The real base is https://api.nearspacelabs.net.
+  - The operation has no `operationId` and no `tags`.
+  - POST /oauth/static_key is fully documented on docs.nearspacelabs.com/authentication — request body, response body, one-year TTL, usage as ?api_key= — but is absent from the contract entirely. Half the provider's credential surface is undescribed.
+  - info.contact carries only `responsibleOrganization`; no contact email or URL, and no license.
+actions:
+  - target: $
+    description: Declare the production host and scheme so the token endpoint is resolvable.
+    update:
+      host: api.nearspacelabs.net
+      schemes:
+        - https
+  - target: $
+    description: Add a reachable contact and a tag group.
+    update:
+      tags:
+        - name: OAuth
+          description: Credential issuance for every Near Space Labs API.
+  - target: $.info.contact
+    description: Add a public support route alongside the existing responsibleOrganization field.
+    update:
+      url: https://www.nearspacelabs.com/contact
+  - target: $.paths['/oauth/token'].post
+    description: Name and classify the token operation.
+    update:
+      operationId: retrieveOAuthToken
+      tags: [OAuth]
+x-recommended-but-not-applied:
+  - >-
+    Describe POST /oauth/static_key — request {client_id, client_secret}, response {api_key,
+    expires_in: 31536000, token_type: "Bearer"} — so the one-year credential is machine-readable.
+    Not applied as an overlay action because Overlay 1.0.0 actions target existing nodes and adding a
+    whole path is better filed with the provider than patched by a third party. Captured in
+    authentication/near-space-labs-authentication.yml instead.
+  - >-
+    Document a revocation or rotation endpoint for static keys. The docs say "reissue it if it leaks"
+    but publish no way to invalidate the leaked key, and do not state whether issuing a new key
+    revokes the old one. For a bearer credential valid for one year and carried in a URL query
+    string, this is the most consequential omission in the whole surface.
+  - >-
+    Serve RFC 8414 authorization-server metadata at /.well-known/oauth-authorization-server so the
+    token endpoint is discoverable without reading prose.

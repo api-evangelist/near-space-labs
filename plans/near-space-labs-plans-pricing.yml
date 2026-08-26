@@ -1,0 +1,39 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  Probed https://www.nearspacelabs.com/pricing (404), https://www.nearspacelabs.com/plans (404), the
+  full site sitemap at https://www.nearspacelabs.com/sitemap.xml (26 URLs, no pricing page), the
+  developer docs at https://docs.nearspacelabs.com/ (10 pages, no pricing page) and
+  https://www.nearspacelabs.com/llms.txt (no pricing entry).
+description: >-
+  Near Space Labs publishes NO pricing. There is no plans page, no tier table, no per-tile or
+  per-square-kilometre rate, no free tier and no self-service signup. Access is sales-gated: the only
+  routes into the product are "Contact Sales" (https://www.nearspacelabs.com/contact) and a demo
+  request form (https://www.nearspacelabs.com/demo), after which Near Space Labs issues an NSL client
+  id and secret. This is a recorded absence, not an unchecked field.
+plan_count: 0
+plans: []
+access_model: contact-sales
+self_service_signup: false
+free_tier: false
+trial: null
+signup_routes:
+  - url: https://www.nearspacelabs.com/contact
+    status: 200
+    label: Contact
+  - url: https://www.nearspacelabs.com/demo
+    status: 200
+    label: Request a demo
+  - url: https://www.nearspacelabs.com/contact
+    status: 200
+    label: '"Contact Sales" — the only call to action in the developer docs navigation'
+probes:
+  - url: https://www.nearspacelabs.com/pricing
+    status: 404
+  - url: https://www.nearspacelabs.com/plans
+    status: 404
+metering_signals_observed:
+  note: >-
+    No metering, quota or billing field appears in either published contract. Nothing in the API
+    surfaces usage, credits, entitlements or overage, so a customer cannot observe consumption
+    programmatically.

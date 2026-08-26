@@ -1,0 +1,140 @@
+generated: '2026-08-26'
+method: derived
+source: Extracted verbatim from the response `examples` blocks published inside the provider's own Swagger
+  2.0 contracts at https://api.nearspacelabs.net/tile/openapi/tile-server and https://api.nearspacelabs.net/oauth/openapi/oauth.
+description: Real request/response examples Near Space Labs publishes inside its OpenAPI/Swagger contracts,
+  split out as standalone JSON so agents and SDK generators can use them directly. Nothing here was authored
+  by API Evangelist.
+examples:
+- file: near-space-labs-tile-surveys-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/surveys
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-surveys-coverage-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/surveys/coverage
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-v2-surveys-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/v2/surveys
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-v2-surveys-coverage-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/v2/surveys/coverage
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-v2-mosaic_id-coverage-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/v2/{mosaic_id}/coverage
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-v2-mosaic_id-footprint-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/v2/{mosaic_id}/footprint
+  status: '200'
+  summary: Successful response with footprint
+  media_type: application/json
+- file: near-space-labs-tile-v2-mosaic_id-footprint-200-example2.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/v2/{mosaic_id}/footprint
+  status: '200'
+  summary: Survey not found
+  media_type: application/json
+- file: near-space-labs-tile-v2-mosaic_id-mosaic_updates-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/v2/{mosaic_id}/mosaic_updates
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-v2-mosaic_id-mosaic_stac_id-z-x-y-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-v2-mosaic_id-mosaic_stac_id-z-x-y-ext-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext}
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-v2-mosaic_id-z-x-y-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/v2/{mosaic_id}/{z}/{x}/{y}
+  status: '200'
+  summary: Metadata example
+  media_type: application/json
+- file: near-space-labs-tile-v2-mosaic_id-z-x-y-ext-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/v2/{mosaic_id}/{z}/{x}/{y}.{ext}
+  status: '200'
+  summary: Metadata example
+  media_type: application/json
+- file: near-space-labs-tile-mosaic_id-coverage-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/{mosaic_id}/coverage
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-mosaic_id-footprint-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/{mosaic_id}/footprint
+  status: '200'
+  summary: Successful response with footprint
+  media_type: application/json
+- file: near-space-labs-tile-mosaic_id-footprint-200-example2.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/{mosaic_id}/footprint
+  status: '200'
+  summary: Survey not found
+  media_type: application/json
+- file: near-space-labs-tile-mosaic_id-mosaic_updates-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/{mosaic_id}/mosaic_updates
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-mosaic_id-mosaic_stac_id-z-x-y-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-mosaic_id-mosaic_stac_id-z-x-y-ext-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext}
+  status: '200'
+  summary: Example output
+  media_type: application/json
+- file: near-space-labs-tile-mosaic_id-z-x-y-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/{mosaic_id}/{z}/{x}/{y}
+  status: '200'
+  summary: Example output for metadata request
+  media_type: application/json
+- file: near-space-labs-tile-mosaic_id-z-x-y-ext-200-example1.json
+  api: openapi/near-space-labs-tile-service.json
+  operation: GET /tile/{mosaic_id}/{z}/{x}/{y}.{ext}
+  status: '200'
+  summary: Example output for metadata request
+  media_type: application/json
+- file: near-space-labs-oauth-token-200-example1.json
+  api: openapi/near-space-labs-oauth-service.json
+  operation: POST /oauth/token
+  status: '200'
+  summary: Example successful response
+  media_type: application/json
+- file: near-space-labs-oauth-token-401-example1.json
+  api: openapi/near-space-labs-oauth-service.json
+  operation: POST /oauth/token
+  status: '401'
+  summary: Example error response
+  media_type: application/json

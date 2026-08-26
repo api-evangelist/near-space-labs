@@ -1,0 +1,53 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://docs.nearspacelabs.com/error-handling, https://docs.nearspacelabs.com/production-tips
+  (section "Rate Limits & Performance"), and the 4xx/5xx response sets in
+  openapi/near-space-labs-tile-service.json.
+description: >-
+  Near Space Labs enforces a rate limit but does not publish it. The docs name 429 as the exhaustion
+  status and tell clients to "back off and retry after a delay", and the page titled "Rate Limits &
+  Performance" contains no limit at all — it discusses token TTL and median latency instead. No
+  numeric quota, no window, no burst allowance and no rate-limit response header is documented, so an
+  agent cannot budget its request rate and can only discover the ceiling by hitting it.
+limit_count: 0
+limits: []
+exhaustion:
+  status_code: 429
+  title: Too Many Requests
+  documented_guidance: 'Rate limit exceeded. Back off and retry after a delay.'
+  source: https://docs.nearspacelabs.com/error-handling
+  body: >-
+    The standard error envelope {error, message, status_code, x-correlation-id} — see
+    errors/near-space-labs-problem-types.yml.
+response_headers:
+  standard_ratelimit_headers: []
+  x_ratelimit_headers: []
+  retry_after: false
+  note: >-
+    None documented. Neither the docs nor either Swagger contract mentions RateLimit-Limit,
+    RateLimit-Remaining, RateLimit-Reset, X-RateLimit-*, or Retry-After. 429 is also absent from
+    every operation's declared responses in the contract — it appears only in the docs status table.
+related_ceilings:
+  - name: OAuth token TTL
+    value: 3600 seconds (60 minutes)
+    note: Not a rate limit, but the refresh cadence every client must budget for.
+  - name: Static API key TTL
+    value: 31536000 seconds (1 year)
+  - name: Survey page size
+    value: 25 by default
+    note: The only published pagination ceiling.
+  - name: Zoom range
+    value: 14-21
+    note: 'Requests outside this range return 422, not 429.'
+  - name: Median tile latency
+    value: ~200 ms
+    note: A published performance figure, not a commitment or a limit.
+provider_performance_guidance:
+  - For bulk downloads, use the coverage endpoint to precompute the tile list, then parallelize fetches.
+  - Use connection pooling (requests.Session() in Python) for repeated requests.
+  - Batch coverage queries by AOI to find the minimal set of tiles before downloading.
+gap: >-
+  The provider explicitly tells consumers to parallelize bulk tile fetches while publishing no
+  concurrency ceiling and no runtime rate-limit signal. That combination is the finding: a client
+  following the documented bulk-download pattern has no way to stay inside a limit it cannot see.

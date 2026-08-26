@@ -1,0 +1,98 @@
+generated: '2026-08-26'
+method: derived
+status: candidate
+source: >-
+  Derived from openapi/near-space-labs-tile-service.json and
+  openapi/near-space-labs-oauth-service.json. Searched first for a published server:
+  https://docs.nearspacelabs.com/ (10 pages, no MCP page), https://www.nearspacelabs.com/llms.txt (no
+  MCP entry), https://github.com/nearspacelabs (7 repos, all forks of third-party geospatial
+  projects, none MCP-related), and npm/PyPI (no @nearspacelabs or nsl MCP package).
+description: >-
+  Near Space Labs ships NO MCP server — neither a hosted remote endpoint nor a local stdio package.
+  This file is a DERIVED CANDIDATE tool surface showing what an MCP server over the existing Tile
+  Service would look like, so the gap is legible and actionable. No `MCPServer` pointer is emitted in
+  apis.yml, because emitting one would credit the provider with an agent surface it does not operate.
+  No endpoint URL is guessed here.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: derived
+searched:
+  - url: https://docs.nearspacelabs.com/
+    status: 200
+    result: No MCP documentation. Docs navigation is Documentation / API Reference / Postman / Status / Contact Sales.
+  - url: https://www.nearspacelabs.com/llms.txt
+    status: 200
+    result: Lists company, solutions, industries and resources pages. No MCP server, no tool list.
+  - url: https://github.com/nearspacelabs
+    status: 200
+    result: Seven repositories, all forks of third-party projects (geozero, proj, tawhiri, rio-glui, ...). No MCP server.
+  - url: https://registry.npmjs.org/@nearspacelabs/nsl-stac
+    status: 404
+candidate_tools:
+  note: >-
+    Names and descriptions below are API Evangelist's proposal, not Near Space Labs'. Each is bound to
+    a real published operation; the `rest` field names the exact method + path in the contract, since
+    the contract declares no operationIds. Fitness for an agent is assessed from the operation's own
+    parameters.
+  tools:
+    - name: list_surveys
+      description: List available imagery surveys, most recent first, with capture windows and spectral range.
+      rest: GET /tile/v2/surveys
+      inputs: [page, page_size]
+      agent_fitness: high — paginated, cheap, no geometry required.
+    - name: find_surveys_by_area
+      description: Find every survey whose footprint intersects a WKT polygon, optionally within a capture-date window.
+      rest: GET /tile/v2/surveys/coverage
+      inputs: [wkt, observed_start, observed_end]
+      agent_fitness: high — this is the natural entry point for "what imagery do you have for this address".
+    - name: get_survey_footprint
+      description: Fetch the WKT footprint geometry for one survey.
+      rest: GET /tile/v2/{mosaic_id}/footprint
+      inputs: [mosaic_id]
+      agent_fitness: high
+    - name: get_survey_coverage
+      description: >-
+        List the tiles a survey holds for a WKT area at a given zoom, each with capture dates,
+        resolution class and a ready-to-fetch static tile URL.
+      rest: GET /tile/v2/{mosaic_id}/coverage
+      inputs: [mosaic_id, wkt, zoom, overlap, tc]
+      agent_fitness: high — returns static_url per item, so an agent never has to construct a tile URL.
+    - name: list_mosaic_updates
+      description: List captures published for a survey inside a time window, for change detection.
+      rest: GET /tile/v2/{mosaic_id}/mosaic_updates
+      inputs: [mosaic_id, since, until, include_percent_covered]
+      agent_fitness: medium — useful, but returns an unbounded array with no pagination.
+    - name: get_tile
+      description: Fetch the latest 256x256 PNG/JPEG tile for a survey at z/x/y.
+      rest: GET /tile/v2/{mosaic_id}/{z}/{x}/{y}.{ext}
+      inputs: [mosaic_id, z, x, y, ext, metadata]
+      agent_fitness: low — returns image bytes, which is a poor MCP tool result; better exposed as an MCP resource or a signed URL.
+    - name: get_historical_tile
+      description: Fetch the tile for one specific historical capture within a survey.
+      rest: GET /tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext}
+      inputs: [mosaic_id, mosaic_stac_id, z, x, y, ext, metadata]
+      agent_fitness: low — same binary-payload problem.
+    - name: get_tile_metadata
+      description: Return a tile's JSON metadata instead of its bytes.
+      rest: GET /tile/v2/{mosaic_id}/{z}/{x}/{y}?metadata=1
+      inputs: [mosaic_id, z, x, y]
+      agent_fitness: high — the text-shaped projection of the tile surface.
+excluded_from_candidate:
+  - rest: POST /oauth/token
+    reason: Credential minting belongs in the server's auth configuration, not in its tool list.
+  - rest: POST /oauth/static_key
+    reason: >-
+      Issues a one-year bearer credential carried in a URL, with no documented revocation path. Must
+      never be an agent-callable tool.
+  - rest: The nine legacy un-versioned /tile/ operations
+    reason: Deprecated — see lifecycle/near-space-labs-lifecycle.yml.
+readiness_note: >-
+  The Tile Service is unusually well-suited to an MCP server: it is entirely read-only, every
+  operation is a GET, the coverage responses already carry fully-formed static tile URLs, and the
+  static API key gives an agent a credential that does not need refreshing. The blockers are the
+  contract's missing operationIds and securityDefinitions, and the fact that tile responses are
+  binary.

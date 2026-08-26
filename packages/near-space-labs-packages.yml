@@ -1,0 +1,70 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  Registry search across PyPI, npm (registry.npmjs.org), Maven Central, NuGet, pkg.go.dev,
+  RubyGems, Packagist and crates.io, plus the GitHub org https://github.com/nearspacelabs and
+  the current developer docs at https://docs.nearspacelabs.com. Version and publish dates read
+  from https://pypi.org/pypi/nsl.stac/json on 2026-08-26.
+description: >-
+  Near Space Labs ships exactly one first-party client library, and it is stale. `nsl.stac` is a
+  Python gRPC client for the company's SpatioTemporal Asset Catalog (STAC) metadata service and
+  GeoTIFF/thumbnail download surface. Its last release is 1.2.7 from 2023-09-07, its declared
+  Homepage (github.com/nearspacelabs/stac-client-python) now returns 404 — the repository has been
+  removed from the public GitHub org, which today contains only seven forks of third-party
+  geospatial projects — and the gRPC host family it wrapped no longer resolves in DNS. The current
+  documented product is the REST Tile Service on api.nearspacelabs.net, and NO first-party SDK
+  exists for it in any registry: the docs teach it with raw `requests` / `fetch` / `curl` snippets
+  and a Postman collection instead.
+packages:
+  - language: python
+    registry: pypi
+    name: nsl.stac
+    url: https://pypi.org/project/nsl.stac/
+    install: pip install nsl.stac
+    official: true
+    version: 1.2.7
+    published: '2023-09-07'
+    summary: gRPC Spatio Temporal Asset Catalog library
+    source: https://github.com/nearspacelabs/stac-client-python
+    source_status: 404
+    wraps: >-
+      The legacy Near Space Labs gRPC STAC metadata service and imagery download surface — NOT the
+      current REST Tile Service documented at docs.nearspacelabs.com.
+    note: >-
+      Abandonment signal. Last release 2023-09-07, nearly three years before this probe; the
+      declared Homepage 404s; the STAC gRPC endpoints it targets are gone. Treat as unmaintained.
+  - language: python
+    registry: pypi
+    name: epl.protobuf
+    url: https://pypi.org/project/epl.protobuf/
+    install: pip install epl.protobuf
+    official: false
+    version: 0.4.12
+    published: '2020-02-07'
+    summary: generated protobufs for geometry and STAC
+    source: https://github.com/geo-grpc/api
+    note: >-
+      A transitive dependency of nsl.stac carrying the generated STAC/geometry protobuf stubs.
+      Published under the `geo-grpc` GitHub organization, NOT under nearspacelabs, so it is
+      recorded here as third-party rather than first-party. Last release 2020-02-07.
+absent:
+  - registry: npm
+    checked: ['@nearspacelabs/nsl-stac', 'nsl-stac']
+    result: 404 — no first-party JavaScript/TypeScript SDK published.
+  - registry: rubygems
+    result: none found
+  - registry: crates.io
+    result: none found
+  - registry: nuget
+    result: none found
+  - registry: maven-central
+    result: none found
+  - registry: pkg.go.dev
+    result: none found
+  - registry: packagist
+    result: none found
+current_rest_api_client_story: >-
+  For the documented Tile Service and OAuth Service there is no SDK at all. The provider ships a
+  public Postman collection (postman/near-space-labs-postman-collection.json, also served at
+  https://docs.nearspacelabs.com/nsl_postman.json) and copy-paste Python/JavaScript/Bash examples
+  on every docs page. That collection is the closest thing to a maintained client artifact.

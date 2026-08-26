@@ -1,0 +1,38 @@
+[
+  [
+    {
+      "capture_date_end": "2024-11-01 18:21:26 UTC",
+      "capture_date_start": "2024-11-01 18:17:51 UTC",
+      "file_format": "png",
+      "geospatial_extent": [
+        -115.29052734375,
+        36.17335693522159,
+        -115.2685546875,
+        36.191092021824524
+      ],
+      "mosaic_stac_id": "20241101T181751_20241101T182126_20241101T193155_02301310020223",
+      "percent_covered": null,
+      "published_date": "2024-11-01 19:31:55 UTC",
+      "spatial_resolution_class": "7.5cm",
+      "spectral_range": "visible",
+      "static_url": "https://api.nearspacelabs.net/tile/2024Q2-NV-LAS/20241101T181751_20241101T182126_20241101T193155_02301310020223/14/2945/6423"
+    },
+    {
+      "capture_date_end": "2024-10-23 08:01:22 UTC",
+      "capture_date_start": "2024-10-23 07:59:28 UTC",
+      "file_format": "png",
+      "geospatial_extent": [
+        -115.29052734375,
+        36.17335693522159,
+        -115.2685546875,
+        36.191092021824524
+      ],
+      "mosaic_stac_id": "20241023T075928_20241023T080122_20241023T082549_02301310020223",
+      "percent_covered": null,
+      "published_date": "2024-10-23 08:25:49 UTC",
+      "spatial_resolution_class": "7.5cm",
+      "spectral_range": "visible",
+      "static_url": "https://api.nearspacelabs.net/tile/2024Q2-NV-LAS/20241023T075928_20241023T080122_20241023T082549_02301310020223/14/2945/6423"
+    }
+  ]
+]

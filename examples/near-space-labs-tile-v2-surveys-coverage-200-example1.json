@@ -1,0 +1,9 @@
+[
+  {
+    "capture_date_end": "2023-04-10T19:58:30Z",
+    "capture_date_start": "2023-04-10T13:49:17Z",
+    "footprint": "POLYGON ((-85.97454071044922 39.0969620016489, ... ))",
+    "id": "2023Q2-IN-COL",
+    "spectral_range": "visible"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  [
+    {
+      "capture_date_end": "2023-05-04T16:01:29Z",
+      "capture_date_start": "2023-05-04T16:00:16Z",
+      "file_format": "png",
+      "geospatial_extent": [
+        -82.353515625,
+        34.452218472826544,
+        -82.33154296875,
+        34.47033512121749
+      ],
+      "mosaic_stac_id": "20230504T160016_20230504T160129_20231016T101153_03200303231322",
+      "percent_covered": 100,
+      "published_date": "2023-10-16T10:11:53Z",
+      "spatial_resolution_class": "10.0cm",
+      "spectral_range": "visible",
+      "static_url": "https://api.nearspacelabs.net/tile/2023Q2-SC-IVA/20230504T160016_20230504T160129_20231016T101153_03200303231322/14/4444/6519"
+    },
+    {
+      "capture_date_end": "2023-05-04T15:37:04Z",
+      "capture_date_start": "2023-05-04T15:35:30Z",
+      "file_format": "png",
+      "geospatial_extent": [
+        -82.8369140625,
+        34.633207911379586,
+        -82.81494140625,
+        34.65128519895414
+      ],
+      "mosaic_stac_id": "20230504T153530_20230504T153704_20231016T101041_03200303202312",
+      "percent_covered": 95,
+      "published_date": "2023-10-16T10:10:41Z",
+      "spatial_resolution_class": "10.0cm",
+      "spectral_range": "visible",
+      "static_url": "https://api.nearspacelabs.net/tile/2023Q2-SC-IVA/20230504T153530_20230504T153704_20231016T101041_03200303202312/14/4434/6503"
+    }
+  ]
+]

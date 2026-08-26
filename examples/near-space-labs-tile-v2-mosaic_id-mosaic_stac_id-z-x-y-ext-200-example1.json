@@ -1,0 +1,19 @@
+[
+  {
+    "capture_date_end": "2024-11-01T18:21:26Z",
+    "capture_date_start": "2024-11-01T18:17:51Z",
+    "file_format": "png",
+    "geospatial_extent": [
+      -115.29052734375,
+      36.17335693522159,
+      -115.2685546875,
+      36.191092021824524
+    ],
+    "mosaic_stac_id": "20241101T181751_20241101T182126_20241101T193155_02301310020223",
+    "percent_covered": 38,
+    "published_date": "2024-11-01T19:31:55Z",
+    "spatial_resolution_class": "7.5cm",
+    "spectral_range": "visible",
+    "static_url": "https://api.nearspacelabs.net/tile/2024Q2-NV-LAS/20241101T181751_20241101T182126_20241101T193155_02301310020223/14/2945/6423"
+  }
+]

@@ -1,0 +1,186 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://docs.nearspacelabs.com/ (Overview, Authentication, Surveys & Coverage, Retrieving Tiles,
+  Error Handling, Production Tips), reconciled against the provider's Swagger 2.0 contracts at
+  https://api.nearspacelabs.net/tile/openapi/tile-server and https://api.nearspacelabs.net/oauth/openapi/oauth.
+description: >-
+  Cross-cutting request/response semantics that apply across every Near Space Labs endpoint —
+  the behaviour OpenAPI does not fully express. The Near Space Labs API is a READ-ONLY imagery
+  delivery surface: apart from minting a credential at /oauth/token and /oauth/static_key, every
+  documented operation is a GET. That single fact determines idempotency, dry-run and reversibility
+  below.
+base_url: https://api.nearspacelabs.net
+api_style: REST over HTTPS; JSON metadata responses and binary PNG/JPEG tile responses.
+write_surface:
+  has_writes: false
+  detail: >-
+    19 of 20 published operations are GET. The only non-GET operations are POST /oauth/token and
+    POST /oauth/static_key, which mint credentials and create no customer-visible resource.
+
+authentication:
+  scheme: OAuth 2.0 client credentials (Bearer JWT, 60 min) or a one-year static api_key query param
+  header: 'Authorization: Bearer <access_token>'
+  alternative: '?api_key=<api_key>'
+  docs: https://docs.nearspacelabs.com/authentication
+  detail: authentication/near-space-labs-authentication.yml
+
+idempotency:
+  supported: na
+  mechanism: null
+  reason: >-
+    No client-supplied idempotency key exists and none is needed. Every data operation is a GET and
+    is therefore idempotent by HTTP semantics. The two POSTs mint credentials; re-posting
+    /oauth/token simply issues another token, and re-posting /oauth/static_key issues another
+    one-year key (the provider does not document whether the previous key is revoked).
+  docs: null
+
+pagination:
+  style: page-number
+  applies_to: GET /tile/v2/surveys (and legacy GET /tile/surveys)
+  request_params:
+    page: 1-based page index
+    page_size: number of surveys per page — defaults to 25
+  response_fields:
+    results: array of survey objects
+    page: current 1-based page index
+    page_size: surveys returned per page
+    has_next: boolean — whether another page exists after this one
+    total_pages: total number of pages
+    total_results: total number of surveys
+  ordering: Most recent surveys first.
+  note: >-
+    Coverage, footprint and mosaic_updates endpoints are NOT paginated — they return an unbounded
+    array for the requested area of interest. The docs recommend narrowing by AOI/zoom instead.
+  docs: https://docs.nearspacelabs.com/surveys-and-coverage
+
+filtering:
+  spatial:
+    param: wkt
+    format: OGC Well-Known Text geometry in EPSG:4326 (WGS 84)
+    used_by: [/tile/v2/surveys/coverage, '/tile/v2/{mosaic_id}/coverage']
+  spatial_predicate:
+    param: overlap
+    values_observed: [intersects]
+    note: Values are not enumerated in the contract; `intersects` is the value used in the provider's own Postman collection.
+  temporal:
+    params: [observed_start, observed_end, since, until]
+    format: ISO 8601 on the /tile/v2/ family; legacy UTC formatting on the un-versioned /tile/ family.
+  zoom:
+    param: zoom
+    range: 14-21
+  extras:
+    tc: integer flag on coverage endpoints
+    include_percent_covered: boolean on mosaic_updates
+    metadata: 'on a tile URL, returns the tile''s JSON metadata instead of image bytes'
+
+content_negotiation:
+  mechanism: path extension, not Accept header
+  param: '{ext}'
+  values: [png, jpeg]
+  default: PNG
+  tile_size: 256 x 256 px
+  note: >-
+    Format is selected by suffixing the tile path (…/{z}/{x}/{y}.png). There is no documented
+    Accept-header negotiation.
+
+caching:
+  request_header: If-None-Match
+  guidance: >-
+    "Use If-None-Match headers when caching tile responses to avoid re-downloads." Footprint
+    geometry "rarely changes once a survey is published" and is explicitly recommended for caching.
+  cache_param: >-
+    The legacy /tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y} operations accept a `cache` boolean
+    query parameter; the v2 family does not.
+  docs: https://docs.nearspacelabs.com/production-tips
+
+request_tracing:
+  field: x-correlation-id
+  location: error response body
+  format: GUID
+  guidance: >-
+    "Persist the x-correlation-id when filing support tickets — we can trace requests instantly."
+  note: >-
+    The correlation id is documented only on the 4xx/5xx JSON envelope. The provider does not
+    document a request-id response header on successful responses.
+  docs: https://docs.nearspacelabs.com/error-handling
+
+versioning:
+  scheme: URL path segment
+  current: /tile/v2/
+  legacy: /tile/  (un-versioned; emits deprecation warnings)
+  contract_version: 1.0.1 (info.version in both Swagger documents)
+  difference: >-
+    The v2 family emits ISO 8601 timestamps; the legacy family emits legacy UTC-formatted
+    timestamps. Path shapes and parameters are otherwise near-identical.
+  docs: https://docs.nearspacelabs.com/surveys-and-coverage
+  detail: lifecycle/near-space-labs-lifecycle.yml
+
+error_envelope:
+  media_type: application/json
+  shape: '{ "error": "<Error code>", "message": "<Error message>", "status_code": "<Status code>", "x-correlation-id": "<GUID>" }'
+  rfc9457: false
+  applies_to: all 4xx and 5xx responses
+  detail: errors/near-space-labs-problem-types.yml
+  docs: https://docs.nearspacelabs.com/error-handling
+
+rate_limit_signaling:
+  documented_headers: []
+  exhaustion_status: 429
+  guidance: 'Rate limit exceeded. Back off and retry after a delay.'
+  gap: >-
+    No numeric limit, no window, and no X-RateLimit-* / RateLimit-* / Retry-After header is
+    documented anywhere. An agent can only discover the limit by hitting it.
+  detail: rate-limits/near-space-labs-rate-limits.yml
+
+dry_run_mode:
+  supported: na
+  reason: Read-only API — there is no write to rehearse.
+
+reversibility:
+  applicable: false
+  grade: na
+  reason: >-
+    Near Space Labs publishes no write, mutate or delete operation on customer data. Every imagery
+    operation is a GET, so there is no action an agent can take that would need to be taken back.
+    Reversibility, idempotency and dry-run are all `na` for this provider, and an honest `na` is the
+    correct measurement rather than a zero.
+  write_surfaces_reviewed:
+    - operation: POST /oauth/token
+      creates: a 60-minute bearer token
+      reversal: none published
+      window: null
+      note: >-
+        No revocation endpoint is documented. A leaked token cannot be revoked by the client; it
+        expires on its own after 60 minutes.
+    - operation: POST /oauth/static_key
+      creates: a one-year static API key
+      reversal: none published
+      window: null
+      note: >-
+        The docs say to "reissue it if it leaks" but publish no revoke/rotate endpoint and do not
+        state whether issuing a new key invalidates the old one. For a credential valid for
+        31,536,000 seconds and carried in the URL, this is the single largest reversibility gap on
+        this API. NEVER assume issuing a new key revokes the old one — the docs do not say so.
+  docs: https://docs.nearspacelabs.com/authentication
+
+conditional_semantics:
+  out_of_bounds_tile: >-
+    Requesting a tile where no imagery exists returns 404 Not Found. The docs advise rendering a
+    transparent placeholder, skipping the tile, or falling back to a basemap — and recommend calling
+    /tile/v2/{survey_id}/coverage first to enumerate valid coordinates and avoid the 404s entirely.
+  basemap_keyword: >-
+    The literal survey id `basemap` in /tile/v2/basemap/{z}/{x}/{y} returns the most recent tile the
+    server holds for that z/x/y across all surveys, so a client can pan and zoom without choosing a
+    survey. Documented in prose but NOT present as a path or enum in the Swagger contract.
+
+client_guidance:
+  source: https://docs.nearspacelabs.com/production-tips
+  items:
+    - Batch coverage queries by AOI to find the minimal tile set before downloading.
+    - Rotate tokens proactively and alert on 401/403 to catch expired credentials quickly.
+    - Cache footprints — geometry rarely changes once a survey is published.
+    - Page through surveys efficiently; the default page size is 25.
+    - Prefer v2 endpoints; legacy /tile/surveys routes emit deprecation warnings.
+    - Use connection pooling (requests.Session()) for repeated requests.
+    - Parallelize tile fetches after precomputing the tile list from /coverage.

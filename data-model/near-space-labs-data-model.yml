@@ -1,0 +1,147 @@
+generated: '2026-08-26'
+method: derived
+source: >-
+  Derived from the inline response schemas and published examples in
+  openapi/near-space-labs-tile-service.json, plus the object descriptions on
+  https://docs.nearspacelabs.com/surveys-and-coverage and
+  https://docs.nearspacelabs.com/retrieving-tiles.
+description: >-
+  The Near Space Labs domain is small and flat: a Survey (also addressed as a Mosaic) is a set of
+  imagery captured over a short timeframe; it has one Footprint, many Coverage items at a given zoom
+  and area of interest, and many Tiles addressed by z/x/y. There are no components.schemas in the
+  contract — every schema is inlined per response — so the graph below is reconstructed from field
+  names and the id values that link them.
+identifiers:
+  survey_id:
+    also_called: [mosaic_id, id, surveyid]
+    format: >-
+      Human-readable period + state + place code. Two generations observed in the provider's own
+      examples: `2024Q4-FL-PTCH`, `2023Q2-SC-IVA`, `2024Q2-NV-LAS` (quarter form) and
+      `2025-P01-CO-DEN`, `2025-P1-MN-MSP` (period form).
+    stability: Stable identifier — the docs say surveys "provide a stable identifier".
+    reserved_values:
+      basemap: >-
+        Not a survey. Used in place of a survey id to request the most recent tile the server holds
+        for a z/x/y across all surveys. Documented in prose only.
+  mosaic_stac_id:
+    format: >-
+      Underscore-joined timestamp triple plus a quadkey-like suffix, e.g.
+      `20241101T181751_20241101T182126_20241101T193155_02301310020223` — capture start, capture end,
+      publish time, then a base-4 tile path.
+    role: Addresses one historical capture within a survey.
+    note: The `stac` in the name is a SpatioTemporal Asset Catalog identifier scheme. See conformance/.
+entities:
+  - name: Survey
+    aka: [Mosaic]
+    description: A mosaic captured over a short timeframe; the primary catalog object.
+    source_operations:
+      - GET /tile/v2/surveys
+      - GET /tile/v2/surveys/coverage
+    fields:
+      id: string — the survey identifier
+      capture_date_start: string(date-time) — start of the survey capture, ISO 8601
+      capture_date_end: string(date-time) — end of the survey capture, ISO 8601
+      last_updated: string(date-time) — when the survey record last changed
+      spectral_range: string — observed value `visible`
+      footprint: string — WKT polygon (present on the coverage projection, absent on the paginated list)
+  - name: SurveyPage
+    description: The paginated envelope wrapping Survey records.
+    source_operations:
+      - GET /tile/v2/surveys
+    fields:
+      results: array of Survey
+      page: integer — current 1-based page index
+      page_size: integer — surveys per page, default 25
+      has_next: boolean
+      total_pages: integer
+      total_results: integer
+  - name: Footprint
+    description: The geometry of a single survey, returned as a WKT string in a JSON wrapper.
+    source_operations:
+      - GET /tile/v2/{mosaic_id}/footprint
+    fields:
+      survey_id: string
+      footprint: string — WKT POLYGON, or null when the survey does not exist
+      status: integer — HTTP status echoed into the body
+  - name: CoverageItem
+    description: >-
+      One tile-sized unit of imagery within a survey at a requested zoom, carrying its own capture
+      window and a ready-to-fetch static tile URL. This is the object a bulk-download pipeline
+      iterates.
+    source_operations:
+      - GET /tile/v2/{mosaic_id}/coverage
+      - GET /tile/v2/{mosaic_id}/mosaic_updates
+    fields:
+      mosaic_stac_id: string — the capture this tile came from
+      geospatial_extent: array[4] of number — [minx, miny, maxx, maxy] in EPSG:4326
+      capture_date_start: string(date-time)
+      capture_date_end: string(date-time)
+      published_date: string(date-time)
+      file_format: string — observed `png`
+      spatial_resolution_class: string — observed `7.5cm`, `10.0cm`
+      spectral_range: string — observed `visible`
+      percent_covered: integer or null — populated when include_percent_covered=1
+      static_url: string(uri) — a fully-formed tile URL on api.nearspacelabs.net
+  - name: Tile
+    description: The image itself — 256x256 px PNG or JPEG bytes, or its JSON metadata when metadata=1.
+    source_operations:
+      - GET /tile/v2/{mosaic_id}/{z}/{x}/{y}
+      - GET /tile/v2/{mosaic_id}/{z}/{x}/{y}.{ext}
+      - GET /tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}
+      - GET /tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext}
+      - GET /tile/rsm/{z}/{x}/{y}.{ext}
+    addressing:
+      z: integer, 14-21
+      x: integer — Web Mercator tile column
+      y: integer — Web Mercator tile row
+      ext: png | jpeg
+  - name: Token
+    description: A 60-minute OAuth 2.0 bearer JWT, or a one-year static api_key.
+    source_operations:
+      - POST /oauth/token
+      - POST /oauth/static_key
+    fields:
+      access_token: string (or api_key on the static endpoint)
+      expires_in: integer — 3600, or 31536000 for a static key
+      token_type: string — always `Bearer`
+relationships:
+  - from: Survey
+    to: Footprint
+    kind: has_one
+    via: survey_id -> mosaic_id path parameter on /tile/v2/{mosaic_id}/footprint
+  - from: Survey
+    to: CoverageItem
+    kind: has_many
+    via: survey_id -> mosaic_id path parameter on /tile/v2/{mosaic_id}/coverage (scoped by wkt + zoom)
+  - from: Survey
+    to: Tile
+    kind: has_many
+    via: survey_id -> mosaic_id path parameter, addressed by z/x/y
+  - from: CoverageItem
+    to: Tile
+    kind: has_one
+    via: static_url — the coverage item already carries the exact tile URL
+  - from: CoverageItem
+    to: Survey
+    kind: belongs_to
+    via: mosaic_stac_id identifies the capture; the survey is the requested mosaic_id
+  - from: SurveyPage
+    to: Survey
+    kind: has_many
+    via: results[]
+  - from: Token
+    to: Survey
+    kind: authorizes
+    via: Authorization Bearer header or api_key query parameter on every operation
+traversal_note: >-
+  The intended read path is list -> narrow -> fetch: GET /tile/v2/surveys to find a survey id, then
+  GET /tile/v2/{survey_id}/coverage?wkt=&zoom= to get CoverageItems whose static_url fields are the
+  exact tiles to download, then fetch those URLs. GET /tile/v2/surveys/coverage inverts the first two
+  steps by asking "which surveys intersect this polygon" instead.
+gaps:
+  - >-
+    The contract declares no components/definitions and no $ref anywhere — Survey is re-inlined with
+    different field sets on each of the three operations that return it, so no generator can produce
+    a single Survey type.
+  - No enum is declared for spectral_range, file_format, spatial_resolution_class, overlap or ext.
+  - The `basemap` pseudo-survey exists only in prose, not in the contract.
