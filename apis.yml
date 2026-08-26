@@ -1,0 +1,25 @@
+aid: near-space-labs
+name: Near Space Labs
+description: 'Near Space Labs is a company surfaced via the API Evangelist harvest backlog (source: secondary-market;
+  backed by leadout-capital) and added to the network as a stub for full-pipeline profiling.'
+url: https://raw.githubusercontent.com/api-evangelist/near-space-labs/refs/heads/main/apis.yml
+x-type: company
+x-source: harvest:secondary-market
+x-tier: stub
+x-tier-reason: harvest
+specificationVersion: '0.20'
+created: '2026-08-26'
+modified: '2026-08-26'
+tags:
+- Company
+apis: []
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+- FN: APIs.json
+  email: info@apis.io
+x-backed-by:
+- leadout-capital
+common:
+- type: Website
+  url: https://www.hiive.com/securities/near-space-labs-stock
