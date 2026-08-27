@@ -33,25 +33,16 @@ tags:
 - Location
 - Imagery
 apis:
-- name: Near Space Labs Tile Service
-  description: >-
-    A standards-based XYZ tile service for Near Space Labs stratospheric aerial imagery. Serves both the
-    latest and historical mosaics as 256x256 PNG/JPEG tiles between zoom 14 and 21, plus a paginated survey
-    catalog, per-survey GeoJSON footprints, WKT area-of-interest coverage queries that return tile footprints
-    with static tile URLs, and a mosaic_updates feed for change detection. The v2 path family carries ISO 8601
-    timestamps; the un-versioned /tile/ family is legacy and emits deprecation warnings.
+- aid: near-space-labs:near-space-labs-oauth-api
+  name: Near Space Labs OAUTH API
+  description: The Oauth API from Near Space Labs — 1 operation(s) for oauth.
   humanURL: https://docs.nearspacelabs.com/api/tile-server
   baseURL: https://api.nearspacelabs.net
   tags:
-  - Aerial Imagery
-  - Tiles
-  - Geospatial
-  - Earth Observation
+  - Oauth
   properties:
   - type: OpenAPI
-    url: openapi/near-space-labs-tile-service.json
-  - type: Overlay
-    url: overlays/near-space-labs-tile-service-overlay.yaml
+    url: openapi/near-space-labs-oauth-api-openapi.yml
   - type: Documentation
     url: https://docs.nearspacelabs.com/retrieving-tiles
   - type: APIReference
@@ -68,30 +59,40 @@ apis:
     url: rate-limits/near-space-labs-rate-limits.yml
   - type: Authentication
     url: authentication/near-space-labs-authentication.yml
-- name: Near Space Labs OAuth Service
-  description: >-
-    The authentication service for every Near Space Labs API. Exchanges an NSL client id and client secret for
-    a 60-minute Bearer JWT via OAuth 2.0 client credentials at POST /oauth/token, and issues long-lived
-    one-year static API keys via POST /oauth/static_key for embedding tiles in web maps where token refresh
-    is impractical. Tokens are presented as an Authorization Bearer header; static keys travel as an api_key
-    query parameter.
-  humanURL: https://docs.nearspacelabs.com/api/oauth
-  baseURL: https://api.nearspacelabs.net
-  tags:
-  - Authentication
-  - OAuth
-  - Security
-  properties:
-  - type: OpenAPI
-    url: openapi/near-space-labs-oauth-service.json
-  - type: Overlay
-    url: overlays/near-space-labs-oauth-service-overlay.yaml
   - type: Documentation
     url: https://docs.nearspacelabs.com/authentication
   - type: APIReference
     url: https://docs.nearspacelabs.com/api/oauth
+- aid: near-space-labs:near-space-labs-tile-api
+  name: Near Space Labs Tile API
+  description: The Tile API from Near Space Labs — 19 operation(s) for tile.
+  humanURL: https://docs.nearspacelabs.com/api/tile-server
+  baseURL: https://api.nearspacelabs.net
+  tags:
+  - Tile
+  properties:
+  - type: OpenAPI
+    url: openapi/near-space-labs-tile-api-openapi.yml
+  - type: Documentation
+    url: https://docs.nearspacelabs.com/retrieving-tiles
+  - type: APIReference
+    url: https://docs.nearspacelabs.com/api/tile-server
+  - type: Postman
+    url: postman/near-space-labs-postman-collection.json
+  - type: ErrorCatalog
+    url: errors/near-space-labs-problem-types.yml
+  - type: DataModel
+    url: data-model/near-space-labs-data-model.yml
+  - type: Conventions
+    url: conventions/near-space-labs-conventions.yml
+  - type: RateLimits
+    url: rate-limits/near-space-labs-rate-limits.yml
   - type: Authentication
     url: authentication/near-space-labs-authentication.yml
+  - type: Documentation
+    url: https://docs.nearspacelabs.com/authentication
+  - type: APIReference
+    url: https://docs.nearspacelabs.com/api/oauth
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -100,6 +101,10 @@ maintainers:
 x-backed-by:
 - leadout-capital
 common:
+- type: Overlay
+  url: overlays/near-space-labs-tile-service-overlay.yaml
+- type: Overlay
+  url: overlays/near-space-labs-oauth-service-overlay.yaml
 - type: Website
   url: https://www.nearspacelabs.com/
 - type: DeveloperPortal
