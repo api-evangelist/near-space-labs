@@ -10,6 +10,18 @@ description: >-
   feeds. Both services publish machine-readable Swagger 2.0 contracts and share a single Postman collection.
   Customers use the imagery for P&C insurance underwriting and claims, state and local government GIS, utility
   and infrastructure monitoring, forestry and wildfire risk, mapping basemaps, and roofing and home services.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://cdn.prod.website-files.com/699b3c4514bfe203a098fbc3/69ea4c7bdbd743e1fa21e934_logo.png
 url: https://raw.githubusercontent.com/api-evangelist/near-space-labs/refs/heads/main/apis.yml
 x-type: company
