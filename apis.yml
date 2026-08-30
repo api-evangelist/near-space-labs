@@ -51,6 +51,8 @@ apis:
   humanURL: https://docs.nearspacelabs.com/api/tile-server
   baseURL: https://api.nearspacelabs.net
   tags:
+  - Authentication
+  tags_raw:
   - Oauth
   properties:
   - type: OpenAPI
