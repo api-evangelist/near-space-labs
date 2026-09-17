@@ -59,18 +59,16 @@ tags:
 - Location
 - Imagery
 apis:
-- aid: near-space-labs:near-space-labs-oauth-api
-  name: Near Space Labs OAUTH API
-  description: The Oauth API from Near Space Labs — 1 operation(s) for oauth.
+- aid: near-space-labs:near-space-labs-tile-api
+  name: Near Space Labs Tile API
+  description: The Tile API from Near Space Labs — 19 operation(s) for tile.
   humanURL: https://docs.nearspacelabs.com/api/tile-server
   baseURL: https://api.nearspacelabs.net
   tags:
-  - Authentication
-  tags_raw:
-  - Oauth
+  - Tile
   properties:
   - type: OpenAPI
-    url: openapi/near-space-labs-oauth-api-openapi.yml
+    url: openapi/near-space-labs-tile-api-openapi.yml
   - type: Documentation
     url: https://docs.nearspacelabs.com/retrieving-tiles
   - type: APIReference
@@ -91,16 +89,16 @@ apis:
     url: https://docs.nearspacelabs.com/authentication
   - type: APIReference
     url: https://docs.nearspacelabs.com/api/oauth
-- aid: near-space-labs:near-space-labs-tile-api
-  name: Near Space Labs Tile API
-  description: The Tile API from Near Space Labs — 19 operation(s) for tile.
+- aid: near-space-labs:near-space-labs-oauth-api
+  name: Near Space Labs OAUTH API
+  description: The Oauth API from Near Space Labs — 1 operation(s) for oauth.
   humanURL: https://docs.nearspacelabs.com/api/tile-server
   baseURL: https://api.nearspacelabs.net
   tags:
-  - Tile
+  - Oauth
   properties:
   - type: OpenAPI
-    url: openapi/near-space-labs-tile-api-openapi.yml
+    url: openapi/near-space-labs-oauth-api-openapi.yml
   - type: Documentation
     url: https://docs.nearspacelabs.com/retrieving-tiles
   - type: APIReference
