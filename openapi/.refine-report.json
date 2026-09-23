@@ -1,0 +1,52 @@
+{
+  "provider": "near-space-labs",
+  "sources": [
+    "_original/near-space-labs-oauth-service.json",
+    "_original/near-space-labs-tile-service.json"
+  ],
+  "outputs": [
+    "near-space-labs-oauth-api-openapi.yml",
+    "near-space-labs-tile-api-openapi.yml"
+  ],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "2 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "near-space-labs-oauth-service.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "near-space-labs-oauth-service.json: tagged paths POST /oauth/token -> Oauth",
+    "near-space-labs-oauth-service.json: declared missing tag: Oauth",
+    "near-space-labs-tile-service.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/rsm/{z}/{x}/{y}.{ext} -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/surveys -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/surveys/coverage -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/v2/surveys -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/v2/surveys/coverage -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/v2/{mosaic_id}/coverage -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/v2/{mosaic_id}/footprint -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/v2/{mosaic_id}/mosaic_updates -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y} -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext} -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/v2/{mosaic_id}/{z}/{x}/{y} -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/v2/{mosaic_id}/{z}/{x}/{y}.{ext} -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/{mosaic_id}/coverage -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/{mosaic_id}/footprint -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/{mosaic_id}/mosaic_updates -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y} -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext} -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/{mosaic_id}/{z}/{x}/{y} -> Tile",
+    "near-space-labs-tile-service.json: tagged paths GET /tile/{mosaic_id}/{z}/{x}/{y}.{ext} -> Tile",
+    "near-space-labs-tile-service.json: declared missing tag: Tile",
+    "superseded outputs removed: near-space-labs-o-auth-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 2 total)"
+  ],
+  "skipped": [
+    "_original/near-space-labs-tile-service_2.json: archived document superseded by a larger archived document",
+    "_original/near-space-labs-oauth-service_2.json: archived document superseded by a larger archived document",
+    "near-space-labs-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "near-space-labs-tile-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

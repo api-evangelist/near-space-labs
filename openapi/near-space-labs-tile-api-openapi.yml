@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  description: This service provides access to high-resolution aerial imagery through a tile server. It offers both historical and latest mosaic tiles. Users can query surveys by geographic area (using WKT), time ranges, and coverage parameters. The service supports standard XYZ tile coordinates, multiple image formats (PNG, JPEG), and includes capabilities for retrieving survey metadata, coverage information, and mosaic updates. The API enables dynamic tile serving, making it suitable for web mapping applications and geospatial analysis. All endpoints support standard HTTP responses and include proper error handling for authentication, authorization, and resource availability.
+  description: This service provides access to high-resolution aerial imagery through a tile server.
   termsOfService: /tos
   title: Service Tile API
   version: 1.0.1
@@ -69,10 +69,12 @@ paths:
       summary: Retrieve an RSM mosaic tile
       tags:
       - Tile
+      operationId: getTileRsmByZByXByY}{ext
+      x-operation-id-source: derived
   /tile/surveys:
     get:
       deprecated: true
-      description: You can retrieve a JSON-formatted list of all available surveys through our survey endpoint:<br/>
+      description: 'You can retrieve a JSON-formatted list of all available surveys through our survey endpoint:'
       responses:
         '200':
           content:
@@ -129,10 +131,12 @@ paths:
       summary: Retrieve all available surveys
       tags:
       - Tile
+      operationId: getTileSurveys
+      x-operation-id-source: derived
   /tile/surveys/coverage:
     get:
       deprecated: true
-      description: Search for available surveys by geographic area and capture date using the survey coverage endpoint. Metadata timestamps are returned as `YYYY-MM-DD HH:MM:SS UTC`.<br/>
+      description: Search for available surveys by geographic area and capture date using the survey coverage endpoint. Metadata timestamps are returned as `YYYY-MM-DD HH:MM:SS UTC`.
       parameters:
       - description: WKT string defining the area of interest. The area cannot exceed 696,000 square kilometers
         in: query
@@ -178,12 +182,14 @@ paths:
           description: Internal Server Error - Contract error or unexpected failure
         '503':
           description: Service Unavailable - Backend service error
-      summary: Retrieves a list of SurveyMetadata items that match the given spatial and temporal filters (legacy UTC timestamps)
+      summary: Retrieves a list of SurveyMetadata items that match the given spatial and…
       tags:
       - Tile
+      operationId: getTileSurveysCoverage
+      x-operation-id-source: derived
   /tile/v2/surveys:
     get:
-      description: This endpoint returns a paginated list of surveys ordered by their most recent update timestamp. (ISO 8601 timestamps)<br/>
+      description: This endpoint returns a paginated list of surveys ordered by their most recent update timestamp. (ISO 8601 timestamps)
       parameters:
       - description: The 1-based page index to retrieve. Each page contains the number of surveys specified by `page_size` (defaults to 25).
         in: query
@@ -296,6 +302,8 @@ paths:
       summary: Retrieve paginated surveys without footprints
       tags:
       - Tile
+      operationId: getTileV2Surveys
+      x-operation-id-source: derived
   /tile/v2/surveys/coverage:
     get:
       parameters:
@@ -368,6 +376,8 @@ paths:
       summary: Retrieve survey coverage metadata (ISO 8601 timestamps)
       tags:
       - Tile
+      operationId: getTileV2SurveysCoverage
+      x-operation-id-source: derived
   /tile/v2/{mosaic_id}/coverage:
     get:
       parameters:
@@ -452,6 +462,8 @@ paths:
       summary: Retrieve coverage metadata for a specific mosaic (ISO 8601 timestamps)
       tags:
       - Tile
+      operationId: getTileV2ByMosaicIdCoverage
+      x-operation-id-source: derived
   /tile/v2/{mosaic_id}/footprint:
     get:
       parameters:
@@ -506,6 +518,8 @@ paths:
       summary: Retrieve the footprint for a single survey
       tags:
       - Tile
+      operationId: getTileV2ByMosaicIdFootprint
+      x-operation-id-source: derived
   /tile/v2/{mosaic_id}/mosaic_updates:
     get:
       parameters:
@@ -585,6 +599,8 @@ paths:
       summary: Retrieve mosaic updates with ISO 8601 timestamps
       tags:
       - Tile
+      operationId: getTileV2ByMosaicIdMosaicUpdates
+      x-operation-id-source: derived
   /tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}:
     get:
       parameters:
@@ -707,6 +723,8 @@ paths:
       summary: Retrieve a historical mosaic tile or metadata (ISO 8601 timestamps)
       tags:
       - Tile
+      operationId: getTileV2ByMosaicIdByMosaicStacIdByZByXByY
+      x-operation-id-source: derived
   /tile/v2/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext}:
     get:
       parameters:
@@ -829,6 +847,8 @@ paths:
       summary: Retrieve a historical mosaic tile or metadata (ISO 8601 timestamps)
       tags:
       - Tile
+      operationId: getTileV2ByMosaicIdByMosaicStacIdByZByXByY}{ext
+      x-operation-id-source: derived
   /tile/v2/{mosaic_id}/{z}/{x}/{y}:
     get:
       parameters:
@@ -911,6 +931,8 @@ paths:
       summary: Retrieve the latest mosaic tile (ISO 8601 metadata)
       tags:
       - Tile
+      operationId: getTileV2ByMosaicIdByZByXByY
+      x-operation-id-source: derived
   /tile/v2/{mosaic_id}/{z}/{x}/{y}.{ext}:
     get:
       parameters:
@@ -993,6 +1015,8 @@ paths:
       summary: Retrieve the latest mosaic tile (ISO 8601 metadata)
       tags:
       - Tile
+      operationId: getTileV2ByMosaicIdByZByXByY}{ext
+      x-operation-id-source: derived
   /tile/{mosaic_id}/coverage:
     get:
       deprecated: true
@@ -1078,6 +1102,8 @@ paths:
       summary: Retrieve coverage metadata for a specific mosaic (legacy UTC timestamps)
       tags:
       - Tile
+      operationId: getTileByMosaicIdCoverage
+      x-operation-id-source: derived
   /tile/{mosaic_id}/footprint:
     get:
       parameters:
@@ -1132,6 +1158,8 @@ paths:
       summary: Retrieve the footprint for a single survey
       tags:
       - Tile
+      operationId: getTileByMosaicIdFootprint
+      x-operation-id-source: derived
   /tile/{mosaic_id}/mosaic_updates:
     get:
       deprecated: true
@@ -1222,6 +1250,8 @@ paths:
       summary: Retrieve updates for a specific mosaic (legacy UTC timestamps)
       tags:
       - Tile
+      operationId: getTileByMosaicIdMosaicUpdates
+      x-operation-id-source: derived
   /tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}:
     get:
       deprecated: true
@@ -1352,6 +1382,8 @@ paths:
       summary: Retrieve a historical mosaic tile or metadata (legacy UTC timestamps)
       tags:
       - Tile
+      operationId: getTileByMosaicIdByMosaicStacIdByZByXByY
+      x-operation-id-source: derived
   /tile/{mosaic_id}/{mosaic_stac_id}/{z}/{x}/{y}.{ext}:
     get:
       deprecated: true
@@ -1482,6 +1514,8 @@ paths:
       summary: Retrieve a historical mosaic tile or metadata (legacy UTC timestamps)
       tags:
       - Tile
+      operationId: getTileByMosaicIdByMosaicStacIdByZByXByY}{ext
+      x-operation-id-source: derived
   /tile/{mosaic_id}/{z}/{x}/{y}:
     get:
       deprecated: true
@@ -1591,9 +1625,11 @@ paths:
           description: Internal Server Error - Contract error or unexpected failure
         '503':
           description: Service Unavailable - Backend service error
-      summary: Returns tiles from the latest mosaic available for a given XYZ (legacy UTC metadata timestamps).
+      summary: Returns tiles from the latest mosaic available for a given XYZ (legacy UTC…
       tags:
       - Tile
+      operationId: getTileByMosaicIdByZByXByY
+      x-operation-id-source: derived
   /tile/{mosaic_id}/{z}/{x}/{y}.{ext}:
     get:
       deprecated: true
@@ -1703,6 +1739,8 @@ paths:
           description: Internal Server Error - Contract error or unexpected failure
         '503':
           description: Service Unavailable - Backend service error
-      summary: Returns tiles from the latest mosaic available for a given XYZ (legacy UTC metadata timestamps).
+      summary: Returns tiles from the latest mosaic available for a given XYZ (legacy UTC…
       tags:
       - Tile
+      operationId: getTileByMosaicIdByZByXByY}{ext
+      x-operation-id-source: derived
