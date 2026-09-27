@@ -3,7 +3,7 @@ info:
   contact:
     responsibleOrganization: Near Space Labs
   description: Authentication is required for all endpoints and is implemented using OAuth 2.0 with the Client Credentials flow.
-  title: Service OAUTH API
+  title: Service OAuth API
   version: 1.0.1
 tags:
 - name: OAuth
