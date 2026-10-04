@@ -58,6 +58,7 @@ tags:
 - Utilities
 - Location
 - Imagery
+- Remote Sensing
 apis:
 - aid: near-space-labs:near-space-labs-tile-api
   name: Near Space Labs Tile API
