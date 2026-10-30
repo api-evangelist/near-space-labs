@@ -64,5 +64,129 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Near Space Labs is a company surfaced via the API Evangelist harvest backlog (source: secondary-market; backed by leadout-capital) and added to the network as a stub for full-pipeline profiling.
-- https://www.hiive.com/securities/near-space-labs-stock
+Near Space Labs is a New York based Earth-observation company that operates a fleet of autonomous, wind-navigated stratospheric vehicles ("Swifty") flying at roughly 65,000 feet to capture 7cm-resolution orthoimagery across approximately 80% of the United States, refreshed twice a year. Imagery is delivered programmatically through a public developer surface at docs.nearspacelabs.com: an OAuth 2.0 client-credentials token service and a standards-based XYZ Tile Service on api.nearspacelabs.net that streams PNG/JPEG tiles at zoom 14-21, exposes paginated survey catalogs, GeoJSON footprints, WKT-based coverage queries and mosaic-update feeds. Both services publish machine-readable Swagger 2.0 contracts and share a single Postman collection. Customers use the imagery for P&C insurance underwriting and claims, state and local government GIS, utility and infrastructure monitoring, forestry and wildfire risk, mapping basemaps, and roofing and home services.
+
+**Areas:** Company · Earth Observation · Aerial Imagery · Geospatial · Satellite and Remote Sensing · Mapping · Tiles · Insurance · Government · Utilities · Location · Imagery
+
+## Near Space Labs on APIs.io
+
+Everything profiled for Near Space Labs is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/near-space-labs/](https://apis.io/providers/near-space-labs/)** — or go straight to one of the APIs or properties below.
+
+### APIs (2)
+
+- [Near Space Labs Tile API](https://apis.io/apis/near-space-labs/near-space-labs-tile-api/) — The Tile API from Near Space Labs — 19 operation(s) for tile.
+- [Near Space Labs OAUTH API](https://apis.io/apis/near-space-labs/near-space-labs-oauth-api/) — The Oauth API from Near Space Labs — 1 operation(s) for oauth.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [near-space-labs-mcp.yml](https://apis.io/servers/near-space-labs/near-space-labs-mcp-yml/)
+
+#### Examples (6)
+
+Example requests and responses.
+
+- [Near Space Labs Oauth Token 401 Example1](https://apis.io/examples/near-space-labs/near-space-labs-oauth-token-401-example1/)
+- [Near Space Labs Tile Mosaic_Id Footprint 200 Example1](https://apis.io/examples/near-space-labs/near-space-labs-tile-mosaic_id-footprint-200-example1/)
+- [Near Space Labs Tile Mosaic_Id Footprint 200 Example2](https://apis.io/examples/near-space-labs/near-space-labs-tile-mosaic_id-footprint-200-example2/)
+- [Near Space Labs Tile V2 Mosaic_Id Footprint 200 Example1](https://apis.io/examples/near-space-labs/near-space-labs-tile-v2-mosaic_id-footprint-200-example1/)
+- [Near Space Labs Tile V2 Mosaic_Id Footprint 200 Example2](https://apis.io/examples/near-space-labs/near-space-labs-tile-v2-mosaic_id-footprint-200-example2/)
+- [Near Space Labs Tile V2 Surveys 200 Example1](https://apis.io/examples/near-space-labs/near-space-labs-tile-v2-surveys-200-example1/)
+
+#### Overlays (2)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Near Space Labs Oauth Service Overlay](https://apis.io/overlays/near-space-labs/near-space-labs-oauth-service-overlay/)
+- [Near Space Labs Tile Service Overlay](https://apis.io/overlays/near-space-labs/near-space-labs-tile-service-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Near Space Labs Authentication](https://apis.io/security/near-space-labs/near-space-labs-authentication/)
+- [Near Space Labs Domain Security](https://apis.io/security/near-space-labs/near-space-labs-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Near Space Labs Plans Pricing](https://apis.io/plans/near-space-labs/near-space-labs-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Near Space Labs Rate Limits](https://apis.io/rate-limits/near-space-labs/near-space-labs-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.nearspacelabs.com/)
+- [Documentation](https://docs.nearspacelabs.com/)
+- [Getting started](https://docs.nearspacelabs.com/authentication)
+- [API reference](https://docs.nearspacelabs.com/api/tile-server)
+- [Support](https://www.nearspacelabs.com/contact)
+- [Blog](https://www.nearspacelabs.com/blog)
+- [Privacy policy](https://www.nearspacelabs.com/privacy-policy)
+- [GitHub](https://github.com/nearspacelabs)
+- [Status](https://status.nearspacelabs.com/)
+
+## API Evangelist rating
+
+**Kin Score 37.5** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 39.4 |
+| Contract governance | 4.5 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 70.8 |
+| Access clarity | 10.5 |
+
+**Agent readiness 26.8** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 18.4** — Insurance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/near-space-labs/](https://apis.io/providers/near-space-labs/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Near Space Labs: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/near-space-labs/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
